@@ -5,6 +5,7 @@ const COLORS = {
   white: "#fff",
   backgroundGray: "#343434",
   foregroundGray: "#9E9E9E",
+  darkGray: "#313131",
 };
 
 const SIZES = {

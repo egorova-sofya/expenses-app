@@ -11,6 +11,7 @@ import MainLayout from "./components/Layout/MainLayout";
 import Header from "./components/Header/Header";
 import CustomRegularText from "./components/Text/CustomRegularText";
 import { COLORS } from "./constants/theme";
+import Tabs from "./components/Tabs/Tabs";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -49,6 +50,7 @@ export default function App() {
             </CustomRegularText>
           </View>
         </View>
+        <Tabs />
       </View>
     </MainLayout>
   );
@@ -69,6 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginBottom: 28,
   },
   descriptionTitle: {
     fontSize: 18,
