@@ -1,11 +1,13 @@
 import React from "react";
 import ExpenseCard from "./ExpenseCard";
-import expenses from "./../../data/expenses.json";
 import { FlatList, SafeAreaView, View } from "react-native";
 import styles from "./expenseCard.style";
 import { COLORS } from "../../constants/theme";
+import { useSelector } from "react-redux";
+import { getExpenseSlice } from "../../app/store/expensesSlice";
 
 const ExpenseCardList = () => {
+  const expenses = useSelector(getExpenseSlice).expenses;
   return (
     <View style={styles.cardsList}>
       <SafeAreaView>

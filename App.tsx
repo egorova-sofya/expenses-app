@@ -17,6 +17,8 @@ import ExpenseCardDetails from "./components/ExpenseCardDetails/ExpenseCardDetai
 import { useState } from "react";
 import IconButton from "./components/Button/IconButton";
 import PlusIcon from "./assets/images/icons/plus.svg";
+import { Provider } from "react-redux";
+import { store } from "./app/store/store";
 
 export default function App() {
   const [showCardDetails, setShowCardDetails] = useState(false);
@@ -31,46 +33,50 @@ export default function App() {
   }
 
   return (
-    <MainLayout>
-      <StatusBar style="light" />
-      <Header />
-      <View style={styles.container}>
-        <CustomMediumText style={styles.welcomeText}>
-          Good Morning,
-        </CustomMediumText>
-        <View style={styles.descriptionContainer}>
-          <View>
-            <CustomRegularText style={styles.descriptionTitle}>
-              Sofi
-            </CustomRegularText>
-            <CustomRegularText style={styles.descriptionValue}>
-              Dec. 12, 2024
-            </CustomRegularText>
+    <Provider store={store}>
+      <MainLayout>
+        <StatusBar style="light" />
+        <Header />
+        <View style={styles.container}>
+          <CustomMediumText style={styles.welcomeText}>
+            Good Morning,
+          </CustomMediumText>
+          <View style={styles.descriptionContainer}>
+            <View>
+              <CustomRegularText style={styles.descriptionTitle}>
+                Sofi
+              </CustomRegularText>
+              <CustomRegularText style={styles.descriptionValue}>
+                Dec. 12, 2024
+              </CustomRegularText>
+            </View>
+            <View>
+              <CustomRegularText style={styles.descriptionTitle}>
+                $335.65
+              </CustomRegularText>
+              <CustomRegularText style={styles.descriptionValue}>
+                Last 7 days
+              </CustomRegularText>
+            </View>
           </View>
-          <View>
-            <CustomRegularText style={styles.descriptionTitle}>
-              $335.65
-            </CustomRegularText>
-            <CustomRegularText style={styles.descriptionValue}>
-              Last 7 days
-            </CustomRegularText>
-          </View>
+          <Tabs />
+          <ExpenseCardList />
         </View>
-        <Tabs />
-        <ExpenseCardList />
-      </View>
-      <ExpenseCardDetails
-        showCardDetails={showCardDetails}
-        setShowCardDetails={setShowCardDetails}
-      />
-      <IconButton
-        showBg
-        containerStyle={styles.addButtonContainer}
-        style={styles.addButton}
-      >
-        <PlusIcon width={20} height={20} fill={COLORS.white} />
-      </IconButton>
-    </MainLayout>
+        <ExpenseCardDetails
+          showCardDetails={showCardDetails}
+          setShowCardDetails={setShowCardDetails}
+        />
+        <View style={styles.addButtonContainer}>
+          <IconButton
+            showBg
+            containerStyle={{ borderRadius: 36 }}
+            style={styles.addButton}
+          >
+            <PlusIcon width={20} height={20} fill={COLORS.white} />
+          </IconButton>
+        </View>
+      </MainLayout>
+    </Provider>
   );
 }
 
@@ -106,10 +112,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    borderRadius: 36,
+    overflow: "hidden",
   },
   addButton: {
     width: 72,
     height: 72,
     borderRadius: 36,
+    overflow: "hidden",
   },
 });

@@ -5,16 +5,34 @@ import DeleteIcon from "./../../assets/images/icons/delete.svg";
 import EditIcon from "./../../assets/images/icons/edit.svg";
 import CustomMediumText from "../Text/CustomMediumText";
 import { COLORS } from "../../constants/theme";
+import { IExpense } from "../../types";
+import { useDispatch } from "react-redux";
+import {
+  deleteExpense,
+  editExpense,
+  setCurrentExpense,
+} from "../../app/store/expensesSlice";
 
 interface Props {
+  expense: IExpense;
   modalVisible: boolean;
   setModalVisible: (value: boolean) => void;
 }
 
-const ExpenseMenu: FC<Props> = ({ modalVisible, setModalVisible }) => {
+const ExpenseMenu: FC<Props> = ({ expense, modalVisible, setModalVisible }) => {
   const closeModal = () => {
-    console.log("😵‍💫");
     setModalVisible(false);
+  };
+
+  const dispatch = useDispatch();
+
+  const editExpenseFn = () => {
+    dispatch(editExpense(expense));
+  };
+
+  const deleteExpenseFn = () => {
+    dispatch(setCurrentExpense(null));
+    dispatch(deleteExpense({ id: expense.id }));
   };
   return (
     <Modal
@@ -29,13 +47,13 @@ const ExpenseMenu: FC<Props> = ({ modalVisible, setModalVisible }) => {
       >
         <TouchableOpacity style={styles.modal} activeOpacity={1}>
           <View style={styles.menu}>
-            <Pressable style={styles.button}>
+            <Pressable onPress={editExpenseFn} style={styles.button}>
               <EditIcon width={32} height={32} fill={COLORS.black} />
               <CustomMediumText style={styles.text}>
                 Edit expense
               </CustomMediumText>
             </Pressable>
-            <Pressable style={styles.button}>
+            <Pressable onPress={deleteExpenseFn} style={styles.button}>
               <DeleteIcon width={32} height={32} fill={COLORS.red} />
               <CustomMediumText style={[styles.text, { color: COLORS.red }]}>
                 Delete expense

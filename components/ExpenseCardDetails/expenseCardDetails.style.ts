@@ -5,6 +5,7 @@ import { COLORS } from "../../constants/theme";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.black,
   },
   iconsContainer: {
     flexDirection: "row",

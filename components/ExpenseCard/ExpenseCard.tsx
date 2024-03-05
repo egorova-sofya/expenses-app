@@ -5,6 +5,8 @@ import CustomBlackText from "../Text/CustomBlackText";
 import CustomRegularText from "../Text/CustomRegularText";
 import { IExpense } from "../../types";
 import { COLORS } from "../../constants/theme";
+import { useDispatch } from "react-redux";
+import { setCurrentExpense } from "../../app/store/expensesSlice";
 
 interface Props extends React.ComponentProps<typeof View> {
   expense: IExpense;
@@ -12,6 +14,7 @@ interface Props extends React.ComponentProps<typeof View> {
 }
 
 const ExpenseCard: FC<Props> = ({ expense, ...props }) => {
+  const dispatch = useDispatch();
   return (
     <View {...props} style={[styles.card, props.style]}>
       <Pressable
@@ -19,20 +22,23 @@ const ExpenseCard: FC<Props> = ({ expense, ...props }) => {
         style={({ pressed }) =>
           pressed ? [styles.button, styles.buttonPressed] : styles.button
         }
+        onPress={() => dispatch(setCurrentExpense(expense))}
       >
         <View style={styles.content}>
           <View style={styles.titleContainer}>
             <View style={styles.separator}></View>
             <View>
               <CustomBlackText style={styles.title}>
-                Some bananas
+                {expense.title}
               </CustomBlackText>
               <CustomRegularText style={styles.date}>
-                2024-1-5
+                {expense.date}
               </CustomRegularText>
             </View>
           </View>
-          <CustomBlackText style={styles.price}>$16.5</CustomBlackText>
+          <CustomBlackText style={styles.price}>
+            ${expense.price}
+          </CustomBlackText>
         </View>
       </Pressable>
     </View>
