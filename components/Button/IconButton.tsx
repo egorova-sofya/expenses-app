@@ -7,22 +7,28 @@ interface Props extends React.ComponentProps<typeof Pressable> {
   children: ReactNode;
   style?: StyleProp<ViewStyle>;
   showBg?: boolean;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
-const IconButton: FC<Props> = ({ children, showBg, ...props }) => {
+const IconButton: FC<Props> = ({
+  containerStyle,
+  children,
+  showBg,
+  ...props
+}) => {
   const buttonStyles = [
     styles.iconButton,
-    props.style,
     { backgroundColor: showBg ? COLORS.backgroundGray : "transparent" },
+    props.style,
   ];
   return (
-    <View style={styles.iconButtonContainer}>
+    <View style={[styles.iconButtonContainer, containerStyle]}>
       <Pressable
         android_ripple={{ color: COLORS.lightGray }}
+        {...props}
         style={({ pressed }) =>
           pressed ? [...buttonStyles, styles.buttonPressed] : buttonStyles
         }
-        {...props}
       >
         {children}
       </Pressable>

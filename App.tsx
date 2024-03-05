@@ -15,6 +15,8 @@ import Tabs from "./components/Tabs/Tabs";
 import ExpenseCardList from "./components/ExpenseCard/ExpenseCardList";
 import ExpenseCardDetails from "./components/ExpenseCardDetails/ExpenseCardDetails";
 import { useState } from "react";
+import IconButton from "./components/Button/IconButton";
+import PlusIcon from "./assets/images/icons/plus.svg";
 
 export default function App() {
   const [showCardDetails, setShowCardDetails] = useState(false);
@@ -61,6 +63,13 @@ export default function App() {
         showCardDetails={showCardDetails}
         setShowCardDetails={setShowCardDetails}
       />
+      <IconButton
+        showBg
+        containerStyle={styles.addButtonContainer}
+        style={styles.addButton}
+      >
+        <PlusIcon width={20} height={20} fill={COLORS.white} />
+      </IconButton>
     </MainLayout>
   );
 }
@@ -90,5 +99,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 15,
     color: COLORS.foregroundGray,
+  },
+  addButtonContainer: {
+    position: "absolute",
+    bottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+  addButton: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
   },
 });
