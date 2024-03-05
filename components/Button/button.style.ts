@@ -6,21 +6,27 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: COLORS.yellow,
     paddingHorizontal: 40,
-    paddingVertical: 8,
-    borderRadius: 54,
+    paddingVertical: 22,
+    borderRadius: 40,
   },
   text: {
     textAlign: "center",
     color: COLORS.black,
-    fontSize: 12,
-    lineHeight: 23,
+    fontSize: 22,
+    lineHeight: 27,
+  },
+  iconButtonContainer: {
+    borderRadius: 21,
+    overflow: "hidden",
   },
   iconButton: {
     width: 42,
     height: 42,
-    borderRadius: 21,
     justifyContent: "center",
     alignItems: "center",
+  },
+  buttonPressed: {
+    opacity: 0.5,
   },
 });
 

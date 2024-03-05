@@ -12,10 +12,12 @@ import Header from "./components/Header/Header";
 import CustomRegularText from "./components/Text/CustomRegularText";
 import { COLORS } from "./constants/theme";
 import Tabs from "./components/Tabs/Tabs";
-import ExpenseCard from "./components/ExpenseCard/ExpenseCard";
 import ExpenseCardList from "./components/ExpenseCard/ExpenseCardList";
+import ExpenseCardDetails from "./components/ExpenseCardDetails/ExpenseCardDetails";
+import { useState } from "react";
 
 export default function App() {
+  const [showCardDetails, setShowCardDetails] = useState(false);
   let [fontsLoaded] = useFonts({
     Montserrat_400Regular,
     Montserrat_500Medium,
@@ -55,6 +57,10 @@ export default function App() {
         <Tabs />
         <ExpenseCardList />
       </View>
+      <ExpenseCardDetails
+        showCardDetails={showCardDetails}
+        setShowCardDetails={setShowCardDetails}
+      />
     </MainLayout>
   );
 }

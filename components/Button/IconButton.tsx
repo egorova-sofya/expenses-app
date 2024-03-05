@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from "react";
 import styles from "./button.style";
-import { Pressable, StyleProp, ViewStyle } from "react-native";
+import { Pressable, StyleProp, View, ViewStyle } from "react-native";
 import { COLORS } from "../../constants/theme";
 
 interface Props extends React.ComponentProps<typeof Pressable> {
@@ -10,17 +10,23 @@ interface Props extends React.ComponentProps<typeof Pressable> {
 }
 
 const IconButton: FC<Props> = ({ children, showBg, ...props }) => {
+  const buttonStyles = [
+    styles.iconButton,
+    props.style,
+    { backgroundColor: showBg ? COLORS.backgroundGray : "transparent" },
+  ];
   return (
-    <Pressable
-      {...props}
-      style={[
-        styles.iconButton,
-        props.style,
-        { backgroundColor: showBg ? COLORS.backgroundGray : "transparent" },
-      ]}
-    >
-      {children}
-    </Pressable>
+    <View style={styles.iconButtonContainer}>
+      <Pressable
+        android_ripple={{ color: COLORS.lightGray }}
+        style={({ pressed }) =>
+          pressed ? [...buttonStyles, styles.buttonPressed] : buttonStyles
+        }
+        {...props}
+      >
+        {children}
+      </Pressable>
+    </View>
   );
 };
 
