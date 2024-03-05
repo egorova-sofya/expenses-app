@@ -5,13 +5,14 @@ import DeleteIcon from "./../../assets/images/icons/delete.svg";
 import EditIcon from "./../../assets/images/icons/edit.svg";
 import CustomMediumText from "../Text/CustomMediumText";
 import { COLORS } from "../../constants/theme";
-import { IExpense } from "../../types";
+import { IExpense, StackNavigation } from "../../types";
 import { useDispatch } from "react-redux";
 import {
   deleteExpense,
   editExpense,
   setCurrentExpense,
 } from "../../app/store/expensesSlice";
+import { useNavigation } from "@react-navigation/native";
 
 interface Props {
   expense: IExpense;
@@ -26,9 +27,7 @@ const ExpenseMenu: FC<Props> = ({ expense, modalVisible, setModalVisible }) => {
 
   const dispatch = useDispatch();
 
-  const editExpenseFn = () => {
-    dispatch(editExpense(expense));
-  };
+  const { navigate } = useNavigation<StackNavigation>();
 
   const deleteExpenseFn = () => {
     dispatch(setCurrentExpense(null));
@@ -47,7 +46,10 @@ const ExpenseMenu: FC<Props> = ({ expense, modalVisible, setModalVisible }) => {
       >
         <TouchableOpacity style={styles.modal} activeOpacity={1}>
           <View style={styles.menu}>
-            <Pressable onPress={editExpenseFn} style={styles.button}>
+            <Pressable
+              onPress={() => navigate("EditExpense")}
+              style={styles.button}
+            >
               <EditIcon width={32} height={32} fill={COLORS.black} />
               <CustomMediumText style={styles.text}>
                 Edit expense

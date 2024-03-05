@@ -7,11 +7,14 @@ import IconButton from "../Button/IconButton";
 import { COLORS } from "../../constants/theme";
 import { useDispatch } from "react-redux";
 import { addExpense } from "../../app/store/expensesSlice";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigation } from "../../types";
 
 interface Props {}
 
 const Header: FC<Props> = ({}) => {
   const dispatch = useDispatch();
+  const { navigate } = useNavigation<StackNavigation>();
 
   const createExpense = () => {
     dispatch(
@@ -33,7 +36,7 @@ const Header: FC<Props> = ({}) => {
         <IconButton>
           <Notifications width={22} height={22} fill={COLORS.white} />
         </IconButton>
-        <IconButton onPress={createExpense}>
+        <IconButton onPress={() => navigate("AddExpense")}>
           <Plus width={22} height={22} fill={COLORS.white} />
         </IconButton>
       </View>
