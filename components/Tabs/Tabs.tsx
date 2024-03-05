@@ -3,7 +3,6 @@ import styles from "./tabs.style";
 import { Pressable, View } from "react-native";
 import CustomRegularText from "../Text/CustomRegularText";
 import { COLORS } from "../../constants/theme";
-import BorderGradient from "../BorderGradient/BorderGradient";
 import { LinearGradient } from "expo-linear-gradient";
 
 const Tabs = () => {

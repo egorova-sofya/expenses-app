@@ -12,6 +12,8 @@ import Header from "./components/Header/Header";
 import CustomRegularText from "./components/Text/CustomRegularText";
 import { COLORS } from "./constants/theme";
 import Tabs from "./components/Tabs/Tabs";
+import ExpenseCard from "./components/ExpenseCard/ExpenseCard";
+import ExpenseCardList from "./components/ExpenseCard/ExpenseCardList";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -51,6 +53,7 @@ export default function App() {
           </View>
         </View>
         <Tabs />
+        <ExpenseCardList />
       </View>
     </MainLayout>
   );
