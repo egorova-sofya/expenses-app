@@ -7,6 +7,7 @@ import { IExpense } from "../../types";
 import { COLORS } from "../../constants/theme";
 import { useDispatch } from "react-redux";
 import { setCurrentExpense } from "../../app/store/expensesSlice";
+import { beautifyPrice } from "../../utils/price";
 
 interface Props extends React.ComponentProps<typeof View> {
   expense: IExpense;
@@ -37,7 +38,7 @@ const ExpenseCard: FC<Props> = ({ expense, ...props }) => {
             </View>
           </View>
           <CustomBlackText style={styles.price}>
-            ${expense.price}
+            {beautifyPrice(expense.price)}
           </CustomBlackText>
         </View>
       </Pressable>

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./expenseCardDetails.style";
 import { Modal, View } from "react-native";
 import CustomMediumText from "../Text/CustomMediumText";
@@ -16,6 +16,7 @@ import {
 } from "../../app/store/expensesSlice";
 import MainLayout from "../Layout/MainLayout";
 import { IExpense } from "../../types";
+import { beautifyPrice } from "../../utils/price";
 
 interface Props {
   showCardDetails: boolean;
@@ -26,8 +27,7 @@ const ExpenseCardDetails: FC<Props> = ({
   showCardDetails,
   setShowCardDetails,
 }) => {
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const expense = useSelector(getExpenseSlice).currentExpense;
+  const [modalVisible, setModalVisible] = useState(false);
   const currentExpense = useSelector(getExpenseSlice).currentExpense;
   const dispatch = useDispatch();
   useEffect(() => {
@@ -61,7 +61,7 @@ const ExpenseCardDetails: FC<Props> = ({
             </IconButton>
           </View>
           <CustomMediumText style={styles.title}>
-            {expense?.title}
+            {currentExpense?.title}
           </CustomMediumText>
           <View style={styles.detailsContainer}>
             <View>
@@ -69,7 +69,7 @@ const ExpenseCardDetails: FC<Props> = ({
                 Expense
               </CustomRegularText>
               <CustomMediumText style={styles.value}>
-                ${expense?.price}
+                {currentExpense?.price && beautifyPrice(currentExpense?.price)}
               </CustomMediumText>
             </View>
             <View>
@@ -77,7 +77,7 @@ const ExpenseCardDetails: FC<Props> = ({
                 Date
               </CustomRegularText>
               <CustomMediumText style={styles.value}>
-                {expense?.date}
+                {currentExpense?.date}
               </CustomMediumText>
             </View>
           </View>
