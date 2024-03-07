@@ -14,6 +14,9 @@ const ExpenseCardList = () => {
         <FlatList
           data={expenses}
           keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={{
+            paddingBottom: 60,
+          }}
           renderItem={({ item, index }) => (
             <ExpenseCard
               expense={item}

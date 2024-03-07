@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: SIZES.horizontalIndent,
-    paddingVertical: 60,
+    paddingTop: 60,
     position: "relative",
   },
 });
