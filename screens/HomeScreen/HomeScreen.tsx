@@ -13,6 +13,8 @@ import PlusIcon from "../../assets/images/icons/plus.svg";
 import { COLORS } from "../../constants/theme";
 import { RootStackParamList } from "../../types";
 import { NavigationProp } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { getExpenseSlice } from "../../app/store/expensesSlice";
 
 interface Props {
   navigation: NavigationProp<RootStackParamList, "Home">;
@@ -20,6 +22,13 @@ interface Props {
 
 const HomeScreen: FC<Props> = ({ navigation }) => {
   const [showCardDetails, setShowCardDetails] = useState(false);
+  const expenses = useSelector(getExpenseSlice).expenses;
+
+  const expensesSum = expenses
+    ? expenses.slice(0, 7).reduce((acc, expense) => {
+        return acc + expense.price;
+      }, 0)
+    : 0;
 
   const openAddExpense = () => {
     navigation.navigate("AddExpense");
@@ -43,7 +52,7 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
           </View>
           <View>
             <CustomRegularText style={styles.descriptionTitle}>
-              $335.65
+              ${expensesSum.toFixed(2)}
             </CustomRegularText>
             <CustomRegularText style={styles.descriptionValue}>
               Last 7 days

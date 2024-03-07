@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   separator: {
     height: 68,
     width: 20,
-    backgroundColor: COLORS.black,
     borderRadius: 12,
   },
   title: {

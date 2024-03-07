@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: SIZES.horizontalIndent,
     paddingVertical: 60,
-    backgroundColor: COLORS.black,
     position: "relative",
   },
 });

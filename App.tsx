@@ -14,6 +14,7 @@ import AddExpenseScreen from "./screens/AddExpenseScreen/AddExpenseScreen";
 import EditExpenseScreen from "./screens/EditExpenseScreen/EditExpenseScreen";
 import { RootStackParamList } from "./types";
 import { NavigationContainer } from "@react-navigation/native";
+import { COLORS } from "./constants/theme";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -36,6 +37,9 @@ export default function App() {
           initialRouteName="Home"
           screenOptions={{
             headerShown: false,
+            contentStyle: {
+              backgroundColor: COLORS.black,
+            },
           }}
         >
           <Stack.Screen name="Home" component={HomeScreen} />
