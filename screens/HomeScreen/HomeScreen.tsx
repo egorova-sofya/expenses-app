@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import Header from "../../components/Header/Header";
 import { View } from "react-native";
@@ -20,11 +20,23 @@ interface Props {
 }
 
 const HomeScreen: FC<Props> = ({ navigation }) => {
-  const [showCardDetails, setShowCardDetails] = useState(false);
   const expenses = useSelector(getExpenseSlice).expenses;
 
-  const expensesSum = expenses
-    ? expenses.slice(0, 7).reduce((acc, expense) => {
+  const getExpensesLast7Days = () => {
+    const today = new Date();
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(today.getDate() - 7);
+
+    return expenses?.filter((expense) => {
+      const expenseDate = new Date(expense.date);
+      return expenseDate >= sevenDaysAgo && expenseDate <= today;
+    });
+  };
+
+  const expensesLast7Days = getExpensesLast7Days();
+
+  const expensesSum = expensesLast7Days
+    ? expensesLast7Days.reduce((acc, expense) => {
         return acc + expense.price;
       }, 0)
     : 0;
