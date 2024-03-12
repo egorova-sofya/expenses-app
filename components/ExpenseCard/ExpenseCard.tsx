@@ -3,14 +3,14 @@ import styles from "./expenseCard.style";
 import { Pressable, StyleProp, View, ViewStyle } from "react-native";
 import CustomBlackText from "../Text/CustomBlackText";
 import CustomRegularText from "../Text/CustomRegularText";
-import { IExpense, StackNavigation } from "../../types";
+import { IExtendedExpense, StackNavigation } from "../../types";
 import { COLORS } from "../../constants/theme";
 import { useDispatch } from "react-redux";
 import { beautifyPrice } from "../../utils/price";
 import { useNavigation } from "@react-navigation/native";
 
 interface Props extends React.ComponentProps<typeof View> {
-  expense: IExpense;
+  expense: IExtendedExpense;
   style?: StyleProp<ViewStyle>;
 }
 

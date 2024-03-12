@@ -12,7 +12,11 @@ import Button from "../Button/Button";
 import { useSelector } from "react-redux";
 import { getExpenseSlice } from "../../app/store/expensesSlice";
 import MainLayout from "../Layout/MainLayout";
-import { IExpense, RootStackParamList, StackNavigation } from "../../types";
+import {
+  IExtendedExpense,
+  RootStackParamList,
+  StackNavigation,
+} from "../../types";
 import { beautifyPrice } from "../../utils/price";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
@@ -71,7 +75,7 @@ const ExpenseCardDetails: FC<Props> = ({}) => {
           Cancel
         </Button>
         <ExpenseMenu
-          expense={expense as IExpense}
+          expense={expense as IExtendedExpense}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
         />

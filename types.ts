@@ -1,10 +1,12 @@
 import { NavigationProp } from "@react-navigation/native";
 
 export interface IExpense {
-  id: number;
   title: string;
   price: number;
   date: string;
+}
+export interface IExtendedExpense extends IExpense {
+  id: number;
 }
 
 export type RootStackParamList = {

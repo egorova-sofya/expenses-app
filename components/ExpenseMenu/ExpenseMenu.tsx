@@ -5,13 +5,13 @@ import DeleteIcon from "./../../assets/images/icons/delete.svg";
 import EditIcon from "./../../assets/images/icons/edit.svg";
 import CustomMediumText from "../Text/CustomMediumText";
 import { COLORS } from "../../constants/theme";
-import { IExpense, StackNavigation } from "../../types";
+import { IExtendedExpense, StackNavigation } from "../../types";
 import { useDispatch } from "react-redux";
 import { deleteExpense } from "../../app/store/expensesSlice";
 import { useNavigation } from "@react-navigation/native";
 
 interface Props {
-  expense: IExpense;
+  expense: IExtendedExpense;
   modalVisible: boolean;
   setModalVisible: (value: boolean) => void;
 }
