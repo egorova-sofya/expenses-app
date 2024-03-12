@@ -11,6 +11,7 @@ export type RootStackParamList = {
   Home: undefined;
   AddExpense: undefined;
   EditExpense: undefined | { expenseId: number };
+  ExpenseDetails: undefined | { expenseId: number };
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;

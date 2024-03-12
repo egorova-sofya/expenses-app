@@ -7,7 +7,6 @@ import CustomMediumText from "../../components/Text/CustomMediumText";
 import CustomRegularText from "../../components/Text/CustomRegularText";
 import Tabs from "../../components/Tabs/Tabs";
 import ExpenseCardList from "../../components/ExpenseCard/ExpenseCardList";
-import ExpenseCardDetails from "../../components/ExpenseCardDetails/ExpenseCardDetails";
 import IconButton from "../../components/Button/IconButton";
 import PlusIcon from "../../assets/images/icons/plus.svg";
 import { COLORS } from "../../constants/theme";
@@ -62,10 +61,7 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
         <Tabs />
         <ExpenseCardList />
       </View>
-      <ExpenseCardDetails
-        showCardDetails={showCardDetails}
-        setShowCardDetails={setShowCardDetails}
-      />
+
       <View style={styles.addButtonContainer}>
         <IconButton
           showBg

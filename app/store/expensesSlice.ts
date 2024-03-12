@@ -5,7 +5,6 @@ import { IExpense } from "../../types";
 
 const initialState = {
   expenses: expenses as Array<IExpense> | null,
-  currentExpense: null as IExpense | null,
 };
 
 export type expenseSliceReducerType = typeof initialState;
@@ -40,19 +39,11 @@ export const expenseSlice = createSlice({
         ? state.expenses?.filter((item) => item.id !== action.payload.id)
         : null;
     },
-    setCurrentExpense: (state, action: PayloadAction<IExpense | null>) => {
-      state.currentExpense = action.payload;
-    },
   },
 });
 
-export const {
-  addExpense,
-  removeExpense,
-  editExpense,
-  deleteExpense,
-  setCurrentExpense,
-} = expenseSlice.actions;
+export const { addExpense, removeExpense, editExpense, deleteExpense } =
+  expenseSlice.actions;
 
 export default expenseSlice.reducer;
 

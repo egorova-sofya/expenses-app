@@ -3,11 +3,11 @@ import styles from "./expenseCard.style";
 import { Pressable, StyleProp, View, ViewStyle } from "react-native";
 import CustomBlackText from "../Text/CustomBlackText";
 import CustomRegularText from "../Text/CustomRegularText";
-import { IExpense } from "../../types";
+import { IExpense, StackNavigation } from "../../types";
 import { COLORS } from "../../constants/theme";
 import { useDispatch } from "react-redux";
-import { setCurrentExpense } from "../../app/store/expensesSlice";
 import { beautifyPrice } from "../../utils/price";
+import { useNavigation } from "@react-navigation/native";
 
 interface Props extends React.ComponentProps<typeof View> {
   expense: IExpense;
@@ -16,6 +16,7 @@ interface Props extends React.ComponentProps<typeof View> {
 
 const ExpenseCard: FC<Props> = ({ expense, ...props }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigation<StackNavigation>();
   return (
     <View {...props} style={[styles.card, props.style]}>
       <Pressable
@@ -23,7 +24,9 @@ const ExpenseCard: FC<Props> = ({ expense, ...props }) => {
         style={({ pressed }) =>
           pressed ? [styles.button, styles.buttonPressed] : styles.button
         }
-        onPress={() => dispatch(setCurrentExpense(expense))}
+        onPress={() =>
+          navigate.navigate("ExpenseDetails", { expenseId: expense.id })
+        }
       >
         <View style={styles.content}>
           <View style={styles.titleContainer}>

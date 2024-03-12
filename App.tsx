@@ -15,6 +15,7 @@ import EditExpenseScreen from "./screens/EditExpenseScreen/EditExpenseScreen";
 import { RootStackParamList } from "./types";
 import { NavigationContainer } from "@react-navigation/native";
 import { COLORS } from "./constants/theme";
+import ExpenseDetails from "./screens/ExpenseDetails/ExpenseDetails";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -45,6 +46,11 @@ export default function App() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
           <Stack.Screen name="EditExpense" component={EditExpenseScreen} />
+          <Stack.Screen
+            name="ExpenseDetails"
+            component={ExpenseDetails}
+            options={{ presentation: "modal" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

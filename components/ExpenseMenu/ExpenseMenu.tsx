@@ -7,11 +7,7 @@ import CustomMediumText from "../Text/CustomMediumText";
 import { COLORS } from "../../constants/theme";
 import { IExpense, StackNavigation } from "../../types";
 import { useDispatch } from "react-redux";
-import {
-  deleteExpense,
-  editExpense,
-  setCurrentExpense,
-} from "../../app/store/expensesSlice";
+import { deleteExpense } from "../../app/store/expensesSlice";
 import { useNavigation } from "@react-navigation/native";
 
 interface Props {
@@ -30,7 +26,6 @@ const ExpenseMenu: FC<Props> = ({ expense, modalVisible, setModalVisible }) => {
   const { navigate } = useNavigation<StackNavigation>();
 
   const deleteExpenseFn = () => {
-    dispatch(setCurrentExpense(null));
     dispatch(deleteExpense({ id: expense.id }));
   };
   return (

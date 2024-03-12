@@ -1,97 +1,82 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import styles from "./expenseCardDetails.style";
-import { Modal, View } from "react-native";
+import { View } from "react-native";
 import CustomMediumText from "../Text/CustomMediumText";
 import CustomRegularText from "../Text/CustomRegularText";
 import IconButton from "../Button/IconButton";
-import Chevron from "./../../assets/images/icons/chevron.svg";
+import CloseIcon from "./../../assets/images/icons/x.svg";
 import Settings from "./../../assets/images/icons/settings.svg";
 import { COLORS } from "../../constants/theme";
 import ExpenseMenu from "../ExpenseMenu/ExpenseMenu";
 import Button from "../Button/Button";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getExpenseSlice,
-  setCurrentExpense,
-} from "../../app/store/expensesSlice";
+import { useSelector } from "react-redux";
+import { getExpenseSlice } from "../../app/store/expensesSlice";
 import MainLayout from "../Layout/MainLayout";
-import { IExpense } from "../../types";
+import { IExpense, RootStackParamList, StackNavigation } from "../../types";
 import { beautifyPrice } from "../../utils/price";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
-interface Props {
-  showCardDetails: boolean;
-  setShowCardDetails: (value: boolean) => void;
-}
+interface Props {}
 
-const ExpenseCardDetails: FC<Props> = ({
-  showCardDetails,
-  setShowCardDetails,
-}) => {
+const ExpenseCardDetails: FC<Props> = ({}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const currentExpense = useSelector(getExpenseSlice).currentExpense;
-  const dispatch = useDispatch();
-  useEffect(() => {
-    currentExpense ? setShowCardDetails(true) : setShowCardDetails(false);
-  }, [currentExpense]);
+  const expenses = useSelector(getExpenseSlice).expenses;
+  const route = useRoute<RouteProp<RootStackParamList, "ExpenseDetails">>();
+  const navigation = useNavigation<StackNavigation>();
 
-  const closeCardDetail = () => {
-    setShowCardDetails(false);
-    dispatch(setCurrentExpense(null));
+  const id = route.params?.expenseId;
+  const expense = expenses?.find((item) => item.id === id);
+
+  const goBack = () => {
+    navigation.goBack();
   };
 
-  if (!currentExpense) {
+  if (!expense) {
     <CustomMediumText>No expense selected</CustomMediumText>;
   }
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={showCardDetails}
-      onRequestClose={closeCardDetail}
-    >
-      <MainLayout>
-        <View style={styles.container}>
-          <View style={styles.iconsContainer}>
-            <IconButton showBg onPress={closeCardDetail}>
-              <Chevron width={22} height={22} fill={COLORS.white} />
-            </IconButton>
-            <IconButton showBg onPress={() => setModalVisible(!modalVisible)}>
-              <Settings width={22} height={22} fill={COLORS.white} />
-            </IconButton>
-          </View>
-          <CustomMediumText style={styles.title}>
-            {currentExpense?.title}
-          </CustomMediumText>
-          <View style={styles.detailsContainer}>
-            <View>
-              <CustomRegularText style={styles.detailTitle}>
-                Expense
-              </CustomRegularText>
-              <CustomMediumText style={styles.value}>
-                {currentExpense?.price && beautifyPrice(currentExpense?.price)}
-              </CustomMediumText>
-            </View>
-            <View>
-              <CustomRegularText style={styles.detailTitle}>
-                Date
-              </CustomRegularText>
-              <CustomMediumText style={styles.value}>
-                {currentExpense?.date}
-              </CustomMediumText>
-            </View>
-          </View>
-          <Button style={styles.button} onPress={closeCardDetail}>
-            Cancel
-          </Button>
-          <ExpenseMenu
-            expense={currentExpense as IExpense}
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-          />
+    <MainLayout>
+      <View style={styles.container}>
+        <View style={styles.iconsContainer}>
+          <IconButton showBg onPress={goBack}>
+            <CloseIcon width={22} height={22} fill={COLORS.white} />
+          </IconButton>
+          <IconButton showBg onPress={() => setModalVisible(!modalVisible)}>
+            <Settings width={22} height={22} fill={COLORS.white} />
+          </IconButton>
         </View>
-      </MainLayout>
-    </Modal>
+        <CustomMediumText style={styles.title}>
+          {expense?.title}
+        </CustomMediumText>
+        <View style={styles.detailsContainer}>
+          <View>
+            <CustomRegularText style={styles.detailTitle}>
+              Expense
+            </CustomRegularText>
+            <CustomMediumText style={styles.value}>
+              {expense?.price && beautifyPrice(expense?.price)}
+            </CustomMediumText>
+          </View>
+          <View>
+            <CustomRegularText style={styles.detailTitle}>
+              Date
+            </CustomRegularText>
+            <CustomMediumText style={styles.value}>
+              {expense?.date}
+            </CustomMediumText>
+          </View>
+        </View>
+        <Button style={styles.button} onPress={goBack}>
+          Cancel
+        </Button>
+        <ExpenseMenu
+          expense={expense as IExpense}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      </View>
+    </MainLayout>
   );
 };
 
