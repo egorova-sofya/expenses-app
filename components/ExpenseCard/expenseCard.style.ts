@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     height: 68,
     width: 20,
     borderRadius: 12,
+    backgroundColor: COLORS.black,
   },
   title: {
     fontSize: 18,

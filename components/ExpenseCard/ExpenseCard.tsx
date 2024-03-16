@@ -1,11 +1,10 @@
 import React, { FC } from "react";
 import styles from "./expenseCard.style";
-import { Pressable, StyleProp, View, ViewStyle } from "react-native";
+import { Pressable, StyleProp, View, ViewStyle, Text } from "react-native";
 import CustomBlackText from "../Text/CustomBlackText";
 import CustomRegularText from "../Text/CustomRegularText";
 import { IExtendedExpense, StackNavigation } from "../../types";
 import { COLORS } from "../../constants/theme";
-import { useDispatch } from "react-redux";
 import { beautifyPrice } from "../../utils/price";
 import { useNavigation } from "@react-navigation/native";
 
@@ -15,7 +14,6 @@ interface Props extends React.ComponentProps<typeof View> {
 }
 
 const ExpenseCard: FC<Props> = ({ expense, ...props }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigation<StackNavigation>();
   return (
     <View {...props} style={[styles.card, props.style]}>
