@@ -10,8 +10,7 @@ import { Provider } from "react-redux";
 import { store } from "./app/store/store";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AddExpenseScreen from "./screens/AddExpenseScreen/AddExpenseScreen";
-import EditExpenseScreen from "./screens/EditExpenseScreen/EditExpenseScreen";
+import ManageExpenseScreen from "./screens/ManageExpenseScreen/ManageExpenseScreen";
 import { RootStackParamList } from "./types";
 import { NavigationContainer } from "@react-navigation/native";
 import { COLORS } from "./constants/theme";
@@ -44,8 +43,7 @@ export default function App() {
           }}
         >
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
-          <Stack.Screen name="EditExpense" component={EditExpenseScreen} />
+          <Stack.Screen name="ManageExpense" component={ManageExpenseScreen} />
           <Stack.Screen
             name="ExpenseDetails"
             component={ExpenseDetails}

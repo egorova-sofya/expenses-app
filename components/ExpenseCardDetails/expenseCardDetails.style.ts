@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   title: {
-    fontSize: 62,
-    lineHeight: 61,
+    fontSize: 49,
+    lineHeight: 60,
     marginBottom: 20,
   },
   detailsContainer: {

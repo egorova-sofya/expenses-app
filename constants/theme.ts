@@ -6,6 +6,7 @@ const COLORS = {
   backgroundGray: "#343434",
   foregroundGray: "#9E9E9E",
   darkGray: "#313131",
+  darkGray2: "#696969",
   lightGray: "#ECECEC",
   red: "#EF4320",
 };

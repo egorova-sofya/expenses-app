@@ -42,7 +42,7 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
     : 0;
 
   const openAddExpense = () => {
-    navigation.navigate("AddExpense");
+    navigation.navigate("ManageExpense");
   };
 
   return (

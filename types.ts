@@ -11,8 +11,7 @@ export interface IExtendedExpense extends IExpense {
 
 export type RootStackParamList = {
   Home: undefined;
-  AddExpense: undefined;
-  EditExpense: undefined | { expenseId: number };
+  ManageExpense: undefined | { expenseId?: number };
   ExpenseDetails: undefined | { expenseId: number };
 };
 

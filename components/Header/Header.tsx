@@ -36,7 +36,7 @@ const Header: FC<Props> = ({}) => {
         <IconButton>
           <Notifications width={22} height={22} fill={COLORS.white} />
         </IconButton>
-        <IconButton onPress={() => navigate("AddExpense")}>
+        <IconButton onPress={() => navigate("ManageExpense")}>
           <Plus width={22} height={22} fill={COLORS.white} />
         </IconButton>
       </View>
