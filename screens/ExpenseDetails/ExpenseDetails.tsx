@@ -1,5 +1,5 @@
 import React from "react";
-import ExpenseCardDetails from "../../components/ExpenseCardDetails/ExpenseCardDetails";
+import ExpenseCardDetails from "../../components/ExpenseDetails/ExpenseDetails";
 
 const ExpenseDetails = () => {
   return <ExpenseCardDetails />;

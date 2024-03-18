@@ -2,16 +2,34 @@ import React, { FC } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import ManageExpenseForm from "../../components/ManageExpenseForm/ManageExpenseForm";
 import { RouteProp } from "@react-navigation/native";
-import { RootStackParamList } from "../../types";
+import { IExpense, RootStackParamList } from "../../types";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addExpense,
+  editExpense,
+  getExpenseSlice,
+} from "../../app/store/expensesSlice";
 
 interface Props {
   route: RouteProp<RootStackParamList, "ManageExpense">;
 }
 const ManageExpenseScreen: FC<Props> = ({ route }) => {
   const id = route.params?.expenseId;
+  const expenses = useSelector(getExpenseSlice).expenses;
+  const dispatch = useDispatch();
+  const expense = expenses?.find((item) => item.id === id);
+
+  const onSubmit = (value: IExpense) => {
+    if (id) {
+      dispatch(editExpense({ ...value, id: id }));
+    } else {
+      dispatch(addExpense({ ...value, id: Date.now() }));
+    }
+  };
+
   return (
     <MainLayout>
-      <ManageExpenseForm />
+      <ManageExpenseForm onSubmit={onSubmit} defaultValues={expense} />
     </MainLayout>
   );
 };

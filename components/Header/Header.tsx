@@ -5,27 +5,14 @@ import Notifications from "./../../assets/images/icons/notifications.svg";
 import Plus from "./../../assets/images/icons/plus.svg";
 import IconButton from "../Button/IconButton";
 import { COLORS } from "../../constants/theme";
-import { useDispatch } from "react-redux";
-import { addExpense } from "../../app/store/expensesSlice";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigation } from "../../types";
 
 interface Props {}
 
 const Header: FC<Props> = ({}) => {
-  const dispatch = useDispatch();
   const { navigate } = useNavigation<StackNavigation>();
 
-  const createExpense = () => {
-    dispatch(
-      addExpense({
-        title: "New Expense",
-        date: '2022-01-01"',
-        id: Math.floor(Math.random() * 1000),
-        price: 1000,
-      })
-    );
-  };
   return (
     <View style={styles.container}>
       <Image

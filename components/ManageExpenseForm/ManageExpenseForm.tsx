@@ -12,9 +12,10 @@ import CustomMediumText from "../Text/CustomMediumText";
 
 interface Props {
   defaultValues?: IExpense;
+  onSubmit: (values: IExpense) => void;
 }
 
-const ManageExpenseForm: React.FC<Props> = ({ defaultValues }) => {
+const ManageExpenseForm: React.FC<Props> = ({ defaultValues, onSubmit }) => {
   const { title, price, date } = defaultValues || {};
   const navigation = useNavigation<StackNavigation>();
   const isEdit = !!defaultValues;
@@ -60,9 +61,16 @@ const ManageExpenseForm: React.FC<Props> = ({ defaultValues }) => {
           value={formValues.price.toString()}
           label="Amount"
           onChangeFn={(value) => setFormValue("price", value)}
+          keyboardType="numeric"
         />
       </View>
-      <Button style={styles.button} onPress={() => console.log(formValues)}>
+      <Button
+        style={styles.button}
+        onPress={() => {
+          onSubmit({ ...formValues, price: Number(formValues.price) });
+          goBack();
+        }}
+      >
         Save
       </Button>
     </View>

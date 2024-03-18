@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import styles from "./expenseMenu.style";
 import { Modal, Pressable, TouchableOpacity, View } from "react-native";
 import DeleteIcon from "./../../assets/images/icons/delete.svg";
@@ -23,10 +23,18 @@ const ExpenseMenu: FC<Props> = ({ expense, modalVisible, setModalVisible }) => {
 
   const dispatch = useDispatch();
 
-  const { navigate } = useNavigation<StackNavigation>();
+  const { navigate, addListener, goBack } = useNavigation<StackNavigation>();
+
+  React.useEffect(() => {
+    const unsubscribe = addListener("blur", () => {
+      setModalVisible(false);
+    });
+    return unsubscribe;
+  }, [navigate]);
 
   const deleteExpenseFn = () => {
     dispatch(deleteExpense({ id: expense.id }));
+    goBack();
   };
   return (
     <Modal
@@ -42,7 +50,9 @@ const ExpenseMenu: FC<Props> = ({ expense, modalVisible, setModalVisible }) => {
         <TouchableOpacity style={styles.modal} activeOpacity={1}>
           <View style={styles.menu}>
             <Pressable
-              onPress={() => navigate("EditExpense")}
+              onPress={() =>
+                navigate("ManageExpense", { expenseId: expense.id })
+              }
               style={styles.button}
             >
               <EditIcon width={32} height={32} fill={COLORS.black} />

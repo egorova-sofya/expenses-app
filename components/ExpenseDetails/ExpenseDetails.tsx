@@ -1,5 +1,5 @@
-import React, { FC, useState } from "react";
-import styles from "./expenseCardDetails.style";
+import React, { FC, useEffect, useState } from "react";
+import styles from "./expenseDetails.style";
 import { View } from "react-native";
 import CustomMediumText from "../Text/CustomMediumText";
 import CustomRegularText from "../Text/CustomRegularText";

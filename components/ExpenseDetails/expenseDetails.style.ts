@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     width: 220,
     alignSelf: "center",
+    marginBottom: 40,
   },
 });
 
