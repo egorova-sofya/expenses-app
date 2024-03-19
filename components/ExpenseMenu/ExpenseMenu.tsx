@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import styles from "./expenseMenu.style";
 import { Modal, Pressable, TouchableOpacity, View } from "react-native";
 import DeleteIcon from "./../../assets/images/icons/delete.svg";

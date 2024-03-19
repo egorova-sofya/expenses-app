@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import CloseIcon from "./../../assets/images/icons/x.svg";
 import { COLORS } from "../../constants/theme";
 import CustomMediumText from "../Text/CustomMediumText";
+import { useForm } from "react-hook-form";
 
 interface Props {
   defaultValues?: IExpense;
@@ -21,21 +22,26 @@ const ManageExpenseForm: React.FC<Props> = ({ defaultValues, onSubmit }) => {
   const isEdit = !!defaultValues;
   const mainTitle = isEdit ? "Edit expense" : "Add expense";
 
-  const [formValues, setFormValues] = React.useState({
-    title: title || "",
-    price: price || "",
-    date: date || "",
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: title || "",
+      price: price?.toString() || "",
+      date: date || "",
+    },
   });
-
-  const setFormValue = (key: keyof IExpense, value: string) => {
-    setFormValues({
-      ...formValues,
-      [key]: value,
-    });
-  };
+  console.log("errors", errors);
 
   const goBack = () => {
     navigation.goBack();
+  };
+
+  const onSubmitFn = (data: IExpense) => {
+    data && onSubmit(data);
+    goBack();
   };
 
   return (
@@ -48,28 +54,33 @@ const ManageExpenseForm: React.FC<Props> = ({ defaultValues, onSubmit }) => {
       <CustomMediumText style={styles.title}>{mainTitle}</CustomMediumText>
       <View style={styles.inputsContainer}>
         <TextInput
-          value={formValues.title}
+          rules={{ required: true }}
+          isError={!!errors.title}
           label="Title"
-          onChangeFn={(value) => setFormValue("title", value)}
+          name="title"
+          control={control}
         />
         <TextInput
-          value={formValues.date}
+          rules={{ required: true }}
+          isError={!!errors.date}
           label="Date"
-          onChangeFn={(value) => setFormValue("date", value)}
+          name="date"
+          control={control}
         />
         <TextInput
-          value={formValues.price.toString()}
           label="Amount"
-          onChangeFn={(value) => setFormValue("price", value)}
+          isError={!!errors.price}
+          name="price"
+          control={control}
+          rules={{ required: true }}
           keyboardType="numeric"
         />
       </View>
       <Button
         style={styles.button}
-        onPress={() => {
-          onSubmit({ ...formValues, price: Number(formValues.price) });
-          goBack();
-        }}
+        onPress={handleSubmit((data) =>
+          onSubmitFn({ ...data, price: +data.price })
+        )}
       >
         Save
       </Button>

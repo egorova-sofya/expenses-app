@@ -1,47 +1,67 @@
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import { TextInput as RNTextInput, StyleSheet, View } from "react-native";
 import { COLORS } from "../../constants/theme";
 import CustomRegularText from "../Text/CustomRegularText";
+import { Controller, FieldValues, UseControllerProps } from "react-hook-form";
 
-interface Props extends React.ComponentProps<typeof RNTextInput> {
+interface InputProps<T extends FieldValues> extends UseControllerProps<T> {
   label: string;
-  value: string;
-  onChangeFn: (value: string) => void;
+  isError?: boolean;
+  keyboardType?: "default" | "number-pad" | "decimal-pad" | "numeric";
 }
 
-const TextInput: FC<Props> = ({ label, value, onChangeFn, ...props }) => {
+function TextInput<T extends FieldValues>({
+  name,
+  control,
+  rules,
+  label,
+  isError,
+  keyboardType,
+}: InputProps<T>) {
   const [isFocused, setIsFocused] = useState(false);
-  const showBigLabel = value.length === 0 && !isFocused;
-  const showSmallLabel = value.length > 0 || isFocused;
 
   return (
-    <View style={styles.container}>
-      <View
-        style={[
-          showBigLabel && styles.labelContainer,
-          showSmallLabel && styles.smallLabelContainer,
-        ]}
-      >
-        <CustomRegularText
-          style={[
-            showBigLabel && styles.label,
-            showSmallLabel && styles.smallLabel,
-          ]}
-        >
-          {label}
-        </CustomRegularText>
-      </View>
-      <RNTextInput
-        {...props}
-        style={[styles.input, props.style]}
-        value={value}
-        onChangeText={onChangeFn}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-      />
-    </View>
+    <Controller
+      rules={rules}
+      render={({ field: { onChange, value }, fieldState }) => {
+        const showBigLabel = value.length === 0 && !isFocused;
+        const showSmallLabel = value.length > 0 || isFocused;
+        return (
+          <>
+            <View style={styles.container}>
+              <View
+                style={[
+                  showBigLabel && styles.labelContainer,
+                  showSmallLabel && styles.smallLabelContainer,
+                ]}
+              >
+                <CustomRegularText
+                  style={[
+                    showBigLabel && styles.label,
+                    showSmallLabel && styles.smallLabel,
+                  ]}
+                >
+                  {label}
+                </CustomRegularText>
+              </View>
+              <RNTextInput
+                style={[styles.input, isError && styles.validationError]}
+                value={value}
+                onChangeText={onChange}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                keyboardType={keyboardType}
+              />
+            </View>
+            <CustomRegularText>{fieldState.error?.message}</CustomRegularText>
+          </>
+        );
+      }}
+      name={name}
+      control={control}
+    />
   );
-};
+}
 
 export default TextInput;
 
@@ -82,5 +102,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingLeft: 8,
     textDecorationLine: "none",
+  },
+  validationError: {
+    borderBottomColor: COLORS.red,
   },
 });
