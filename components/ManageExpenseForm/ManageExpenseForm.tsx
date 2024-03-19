@@ -10,6 +10,7 @@ import CloseIcon from "./../../assets/images/icons/x.svg";
 import { COLORS } from "../../constants/theme";
 import CustomMediumText from "../Text/CustomMediumText";
 import { useForm } from "react-hook-form";
+import DateInput from "../Inputs/DateInput";
 
 interface Props {
   defaultValues?: IExpense;
@@ -33,7 +34,6 @@ const ManageExpenseForm: React.FC<Props> = ({ defaultValues, onSubmit }) => {
       date: date || "",
     },
   });
-  console.log("errors", errors);
 
   const goBack = () => {
     navigation.goBack();
@@ -60,10 +60,11 @@ const ManageExpenseForm: React.FC<Props> = ({ defaultValues, onSubmit }) => {
           name="title"
           control={control}
         />
-        <TextInput
+
+        <DateInput
           rules={{ required: true }}
           isError={!!errors.date}
-          label="Date"
+          label="Date (YYYY/MM/DD)"
           name="date"
           control={control}
         />

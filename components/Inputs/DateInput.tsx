@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { TextInput as RNTextInput, StyleSheet, View } from "react-native";
+import React, { FC, useState } from "react";
+import { View, StyleSheet } from "react-native";
 import { COLORS } from "../../constants/theme";
-import CustomRegularText from "../Text/CustomRegularText";
+import MaskInput, { Masks } from "react-native-mask-input";
 import { Controller, FieldValues, UseControllerProps } from "react-hook-form";
+import CustomRegularText from "../Text/CustomRegularText";
 
 interface InputProps<T extends FieldValues> extends UseControllerProps<T> {
   label: string;
@@ -10,7 +11,7 @@ interface InputProps<T extends FieldValues> extends UseControllerProps<T> {
   keyboardType?: "default" | "number-pad" | "decimal-pad" | "numeric";
 }
 
-function TextInput<T extends FieldValues>({
+function DateInput<T extends FieldValues>({
   name,
   control,
   rules,
@@ -18,6 +19,7 @@ function TextInput<T extends FieldValues>({
   isError,
   keyboardType,
 }: InputProps<T>) {
+  const [phone, setPhone] = React.useState("");
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -27,33 +29,37 @@ function TextInput<T extends FieldValues>({
         const showBigLabel = value.length === 0 && !isFocused;
         const showSmallLabel = value.length > 0 || isFocused;
         return (
-          <>
-            <View style={styles.container}>
-              <View
+          <View style={styles.container}>
+            <View
+              style={[
+                showBigLabel && styles.labelContainer,
+                showSmallLabel && styles.smallLabelContainer,
+              ]}
+            >
+              <CustomRegularText
                 style={[
-                  showBigLabel && styles.labelContainer,
-                  showSmallLabel && styles.smallLabelContainer,
+                  showBigLabel && styles.label,
+                  showSmallLabel && styles.smallLabel,
                 ]}
               >
-                <CustomRegularText
-                  style={[
-                    showBigLabel && styles.label,
-                    showSmallLabel && styles.smallLabel,
-                  ]}
-                >
-                  {label}
-                </CustomRegularText>
-              </View>
-              <RNTextInput
-                style={[styles.input, isError && styles.validationError]}
-                value={value}
-                onChangeText={onChange}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                keyboardType={keyboardType}
-              />
+                {label}
+              </CustomRegularText>
             </View>
-          </>
+            <MaskInput
+              style={[styles.input, isError && styles.validationError]}
+              value={value}
+              onChangeText={(masked) => {
+                setPhone(masked);
+                onChange(masked);
+              }}
+              mask={isFocused ? Masks.DATE_YYYYMMDD : undefined}
+              keyboardType={keyboardType}
+              maskAutoComplete
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              placeholderTextColor="#FFF"
+            />
+          </View>
         );
       }}
       name={name}
@@ -61,8 +67,6 @@ function TextInput<T extends FieldValues>({
     />
   );
 }
-
-export default TextInput;
 
 const styles = StyleSheet.create({
   container: {
@@ -96,6 +100,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     fontSize: 18,
     color: COLORS.white,
+    // color: COLORS.red,
+
     borderTopColor: "transparent",
     borderBottomColor: COLORS.white,
     paddingVertical: 8,
@@ -106,3 +112,5 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.red,
   },
 });
+
+export default DateInput;

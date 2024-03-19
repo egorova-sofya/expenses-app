@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
   inputsContainer: {
     flexDirection: "column",
-    gap: 24,
+    gap: 32,
   },
   button: {
     width: 220,
