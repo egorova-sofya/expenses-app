@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import { TextInput as RNTextInput, StyleSheet, View } from "react-native";
-import { COLORS } from "../../constants/theme";
+import { TextInput as RNTextInput, View } from "react-native";
 import CustomRegularText from "../Text/CustomRegularText";
-import { Controller, FieldValues, UseControllerProps } from "react-hook-form";
-
-interface InputProps<T extends FieldValues> extends UseControllerProps<T> {
-  label: string;
-  isError?: boolean;
-  keyboardType?: "default" | "number-pad" | "decimal-pad" | "numeric";
-}
+import { Controller, FieldValues } from "react-hook-form";
+import styles from "./input.style";
+import { InputProps } from "./props";
 
 function TextInput<T extends FieldValues>({
   name,
@@ -63,46 +58,3 @@ function TextInput<T extends FieldValues>({
 }
 
 export default TextInput;
-
-const styles = StyleSheet.create({
-  container: {
-    position: "relative",
-  },
-  labelContainer: {
-    height: "100%",
-    left: 8,
-    position: "absolute",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  label: {
-    color: COLORS.darkGray2,
-    fontSize: 18,
-  },
-  smallLabelContainer: {
-    height: "100%",
-    left: 8,
-    position: "absolute",
-    alignItems: "center",
-    justifyContent: "center",
-    top: -20,
-  },
-  smallLabel: {
-    color: COLORS.foregroundGray,
-    fontSize: 11,
-  },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    fontSize: 18,
-    color: COLORS.white,
-    borderTopColor: "transparent",
-    borderBottomColor: COLORS.white,
-    paddingVertical: 8,
-    paddingLeft: 8,
-    textDecorationLine: "none",
-  },
-  validationError: {
-    borderBottomColor: COLORS.red,
-  },
-});

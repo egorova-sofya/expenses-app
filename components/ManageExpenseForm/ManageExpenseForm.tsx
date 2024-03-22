@@ -2,7 +2,6 @@ import React from "react";
 import { IExpense, StackNavigation } from "../../types";
 import { View } from "react-native";
 import TextInput from "../Inputs/TextInput";
-import styles from "./ManageExpenseForm.style";
 import Button from "../Button/Button";
 import IconButton from "../Button/IconButton";
 import { useNavigation } from "@react-navigation/native";
@@ -11,6 +10,7 @@ import { COLORS } from "../../constants/theme";
 import CustomMediumText from "../Text/CustomMediumText";
 import { useForm } from "react-hook-form";
 import DateInput from "../Inputs/DateInput";
+import styles from "./manageExpenseForm.style";
 
 interface Props {
   defaultValues?: IExpense;

@@ -33,8 +33,9 @@ const styles = StyleSheet.create({
     bottom: 20,
     justifyContent: "center",
     alignItems: "center",
+    alignSelf: "center",
     width: "100%",
-    borderRadius: 36,
+    height: 72,
     overflow: "hidden",
   },
   addButton: {

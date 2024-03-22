@@ -3,30 +3,30 @@
     "id": 1,
     "title": "Groceries",
     "price": 100,
-    "date": "2024-03-12"
+    "date": "2024/03/12"
   },
   {
     "id": 2,
     "title": "Banking",
     "price": 343,
-    "date": "2024-03-01"
+    "date": "2024/03/01"
   },
   {
     "id": 3,
     "title": "Dining",
     "price": 20,
-    "date": "2024-03-02"
+    "date": "2024/03/02"
   },
   {
     "id": 4,
     "title": "Transportation",
     "price": 22,
-    "date": "2024-03-12"
+    "date": "2024/03/12"
   },
   {
     "id": 5,
     "title": "Transportation",
     "price": 22,
-    "date": "2024-03-11"
+    "date": "2024/03/11"
   }
 ]
