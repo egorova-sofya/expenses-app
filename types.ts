@@ -6,6 +6,11 @@ export interface IExpense {
   date: string;
 }
 
+export interface IAuthValues {
+  email: string;
+  password: string;
+}
+
 export interface IFirebaseExpense {
   [key: string]: IExpense;
 }
@@ -17,6 +22,8 @@ export type RootStackParamList = {
   Home: undefined;
   ManageExpense: undefined | { expenseId?: string };
   ExpenseDetails: undefined | { expenseId: string };
+  SignIn: undefined;
+  SignUp: undefined;
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;

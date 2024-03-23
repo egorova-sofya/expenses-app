@@ -16,6 +16,8 @@ import { COLORS } from "./constants/theme";
 import ExpenseDetails from "./screens/ExpenseDetails/ExpenseDetails";
 import LoadingOverlay from "./components/StatusComponents/LoadingOverlay";
 import ErrorOverlay from "./components/StatusComponents/ErrorOverlay";
+import SignInScreen from "./screens/Auth/SignInScreen";
+import SignUpScreen from "./screens/Auth/SignUpScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -39,7 +41,8 @@ export default function App() {
       <StatusBar style="light" />
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Home"
+          // initialRouteName="Home"
+          initialRouteName="SignIn"
           screenOptions={{
             headerShown: false,
             contentStyle: {
@@ -49,6 +52,8 @@ export default function App() {
         >
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="ManageExpense" component={ManageExpenseScreen} />
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen
             name="ExpenseDetails"
             component={ExpenseDetails}
