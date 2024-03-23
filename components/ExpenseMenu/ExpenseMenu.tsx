@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { deleteExpense } from "../../app/store/expensesSlice";
 import { useNavigation } from "@react-navigation/native";
 import { API } from "../../app/api";
+import ErrorOverlay from "../StatusComponents/ErrorOverlay";
 
 interface Props {
   expense: IExtendedExpense;
@@ -37,11 +38,14 @@ const ExpenseMenu: FC<Props> = ({ expense, modalVisible, setModalVisible }) => {
   }, [navigate]);
 
   const deleteExpenseFn = async () => {
-    console.log("expense.id", expense.id);
     await fetchDeleteExpenses({ id: expense.id });
     dispatch(deleteExpense({ id: expense.id }));
     goBack();
   };
+
+  if (isError) {
+    return <ErrorOverlay />;
+  }
   return (
     <Modal
       animationType="slide"
@@ -59,14 +63,19 @@ const ExpenseMenu: FC<Props> = ({ expense, modalVisible, setModalVisible }) => {
               onPress={() =>
                 navigate("ManageExpense", { expenseId: expense.id })
               }
-              style={styles.button}
+              style={[styles.button, isLoading && { opacity: 0.5 }]}
+              disabled={isLoading}
             >
               <EditIcon width={32} height={32} fill={COLORS.black} />
               <CustomMediumText style={styles.text}>
                 Edit expense
               </CustomMediumText>
             </Pressable>
-            <Pressable onPress={deleteExpenseFn} style={styles.button}>
+            <Pressable
+              onPress={deleteExpenseFn}
+              style={[styles.button, isLoading && { opacity: 0.5 }]}
+              disabled={isLoading}
+            >
               <DeleteIcon width={32} height={32} fill={COLORS.red} />
               <CustomMediumText style={[styles.text, { color: COLORS.red }]}>
                 Delete expense

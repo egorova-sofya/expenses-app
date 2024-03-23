@@ -15,6 +15,8 @@ import { NavigationProp } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getExpenseSlice, setExpenses } from "../../app/store/expensesSlice";
 import { API } from "../../app/api";
+import LoadingOverlay from "../../components/StatusComponents/LoadingOverlay";
+import ErrorOverlay from "../../components/StatusComponents/ErrorOverlay";
 
 interface Props {
   navigation: NavigationProp<RootStackParamList, "Home">;
@@ -35,7 +37,7 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
     });
   };
 
-  const { isLoading, data } = API.useFetchGetExpensesQuery();
+  const { isLoading, isError, data } = API.useFetchGetExpensesQuery();
 
   useEffect(() => {
     if (data) {
@@ -54,6 +56,10 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
   const openAddExpense = () => {
     navigation.navigate("ManageExpense");
   };
+
+  if (isError) {
+    return <ErrorOverlay />;
+  }
 
   return (
     <MainLayout>
@@ -81,7 +87,7 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
           </View>
         </View>
         <Tabs />
-        <ExpenseCardList />
+        {isLoading ? <LoadingOverlay /> : <ExpenseCardList />}
       </View>
 
       <View style={styles.addButtonContainer}>

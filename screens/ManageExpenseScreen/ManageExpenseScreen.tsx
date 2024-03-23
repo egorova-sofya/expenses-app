@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import ManageExpenseForm from "../../components/ManageExpenseForm/ManageExpenseForm";
 import { RouteProp } from "@react-navigation/native";
@@ -10,6 +10,7 @@ import {
   getExpenseSlice,
 } from "../../app/store/expensesSlice";
 import { API } from "../../app/api";
+import LoadingOverlay from "../../components/StatusComponents/LoadingOverlay";
 
 interface Props {
   route: RouteProp<RootStackParamList, "ManageExpense">;
@@ -39,6 +40,14 @@ const ManageExpenseScreen: FC<Props> = ({ route }) => {
         dispatch(addExpense({ ...value, id: result?.data.name }));
     }
   };
+
+  if (isAddExpenseLoading || isEditExpenseLoading) {
+    return <LoadingOverlay />;
+  }
+
+  if (isAddExpenseError || isEditExpenseError) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <MainLayout>

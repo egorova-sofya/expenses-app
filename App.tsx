@@ -5,7 +5,6 @@ import {
 } from "@expo-google-fonts/montserrat";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
-import { Text } from "react-native";
 import { Provider } from "react-redux";
 import { store } from "./app/store/store";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
@@ -15,18 +14,24 @@ import { RootStackParamList } from "./types";
 import { NavigationContainer } from "@react-navigation/native";
 import { COLORS } from "./constants/theme";
 import ExpenseDetails from "./screens/ExpenseDetails/ExpenseDetails";
+import LoadingOverlay from "./components/StatusComponents/LoadingOverlay";
+import ErrorOverlay from "./components/StatusComponents/ErrorOverlay";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
-  let [fontsLoaded] = useFonts({
+  let [fontsLoaded, error] = useFonts({
     Montserrat_400Regular,
     Montserrat_500Medium,
     Montserrat_900Black,
   });
 
+  if (error) {
+    return <ErrorOverlay />;
+  }
+
   if (!fontsLoaded) {
-    return <Text>Loading...</Text>;
+    return <LoadingOverlay />;
   }
 
   return (
