@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import ManageExpenseForm from "../../components/ManageExpenseForm/ManageExpenseForm";
 import { RouteProp } from "@react-navigation/native";
@@ -20,14 +20,23 @@ const ManageExpenseScreen: FC<Props> = ({ route }) => {
   const dispatch = useDispatch();
   const expense = expenses?.find((item) => item.id === id);
 
-  const [fetchAddExpense, { data }] = API.useFetchAddExpenseMutation();
+  const [
+    fetchAddExpense,
+    { isLoading: isAddExpenseLoading, isError: isAddExpenseError },
+  ] = API.useFetchAddExpenseMutation();
+  const [
+    fetchEditExpense,
+    { isLoading: isEditExpenseLoading, isError: isEditExpenseError },
+  ] = API.useFetchEditExpenseMutation();
 
-  const onSubmit = (value: IExpense) => {
+  const onSubmit = async (value: IExpense) => {
     if (id) {
+      fetchEditExpense({ id: id, data: value });
       dispatch(editExpense({ ...value, id: id }));
     } else {
-      dispatch(addExpense({ ...value, id: Date.now() }));
-      fetchAddExpense(value);
+      const result = await fetchAddExpense(value);
+      "data" in result &&
+        dispatch(addExpense({ ...value, id: result?.data.name }));
     }
   };
 

@@ -9,6 +9,7 @@ import { IExtendedExpense, StackNavigation } from "../../types";
 import { useDispatch } from "react-redux";
 import { deleteExpense } from "../../app/store/expensesSlice";
 import { useNavigation } from "@react-navigation/native";
+import { API } from "../../app/api";
 
 interface Props {
   expense: IExtendedExpense;
@@ -21,6 +22,9 @@ const ExpenseMenu: FC<Props> = ({ expense, modalVisible, setModalVisible }) => {
     setModalVisible(false);
   };
 
+  const [fetchDeleteExpenses, { isLoading, isError }] =
+    API.useFetchDeleteExpensesMutation();
+
   const dispatch = useDispatch();
 
   const { navigate, addListener, goBack } = useNavigation<StackNavigation>();
@@ -32,7 +36,9 @@ const ExpenseMenu: FC<Props> = ({ expense, modalVisible, setModalVisible }) => {
     return unsubscribe;
   }, [navigate]);
 
-  const deleteExpenseFn = () => {
+  const deleteExpenseFn = async () => {
+    console.log("expense.id", expense.id);
+    await fetchDeleteExpenses({ id: expense.id });
     dispatch(deleteExpense({ id: expense.id }));
     goBack();
   };

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import Header from "../../components/Header/Header";
 import { View } from "react-native";
@@ -12,8 +12,9 @@ import PlusIcon from "../../assets/images/icons/plus.svg";
 import { COLORS } from "../../constants/theme";
 import { RootStackParamList } from "../../types";
 import { NavigationProp } from "@react-navigation/native";
-import { useSelector } from "react-redux";
-import { getExpenseSlice } from "../../app/store/expensesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getExpenseSlice, setExpenses } from "../../app/store/expensesSlice";
+import { API } from "../../app/api";
 
 interface Props {
   navigation: NavigationProp<RootStackParamList, "Home">;
@@ -21,6 +22,7 @@ interface Props {
 
 const HomeScreen: FC<Props> = ({ navigation }) => {
   const expenses = useSelector(getExpenseSlice).expenses;
+  const dispatch = useDispatch();
 
   const getExpensesLast7Days = () => {
     const today = new Date();
@@ -32,6 +34,14 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
       return expenseDate >= sevenDaysAgo && expenseDate <= today;
     });
   };
+
+  const { isLoading, data } = API.useFetchGetExpensesQuery();
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setExpenses(data));
+    }
+  }, [data]);
 
   const expensesLast7Days = getExpensesLast7Days();
 

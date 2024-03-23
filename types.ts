@@ -5,14 +5,18 @@ export interface IExpense {
   price: number;
   date: string;
 }
+
+export interface IFirebaseExpense {
+  [key: string]: IExpense;
+}
 export interface IExtendedExpense extends IExpense {
-  id: number;
+  id: string;
 }
 
 export type RootStackParamList = {
   Home: undefined;
-  ManageExpense: undefined | { expenseId?: number };
-  ExpenseDetails: undefined | { expenseId: number };
+  ManageExpense: undefined | { expenseId?: string };
+  ExpenseDetails: undefined | { expenseId: string };
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;
