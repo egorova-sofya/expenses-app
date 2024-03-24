@@ -5,7 +5,7 @@ import {
 } from "@expo-google-fonts/montserrat";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { store } from "./app/store/store";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -18,8 +18,69 @@ import LoadingOverlay from "./components/StatusComponents/LoadingOverlay";
 import ErrorOverlay from "./components/StatusComponents/ErrorOverlay";
 import SignInScreen from "./screens/Auth/SignInScreen";
 import SignUpScreen from "./screens/Auth/SignUpScreen";
+import { authenticate, getAuthSlice } from "./app/store/authSlice";
+import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const screenOptions = {
+  headerShown: false,
+  contentStyle: {
+    backgroundColor: COLORS.black,
+  },
+};
+
+function AuthStack() {
+  return (
+    <Stack.Navigator initialRouteName="SignIn" screenOptions={screenOptions}>
+      <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function AuthenticatedStack() {
+  return (
+    <Stack.Navigator initialRouteName="Home" screenOptions={screenOptions}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="ManageExpense" component={ManageExpenseScreen} />
+
+      <Stack.Screen
+        name="ExpenseDetails"
+        component={ExpenseDetails}
+        options={{ presentation: "modal" }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function Navigation() {
+  const isAuth = !!useSelector(getAuthSlice).token;
+
+  return (
+    <NavigationContainer>
+      {!isAuth && <AuthStack />}
+      {isAuth && <AuthenticatedStack />}
+    </NavigationContainer>
+  );
+}
+function Root() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    async function checkAuth() {
+      const storedToken = await AsyncStorage.getItem("token");
+
+      if (storedToken) {
+        dispatch(authenticate(storedToken));
+      }
+    }
+
+    checkAuth();
+  }, []);
+
+  return <Navigation />;
+}
 
 export default function App() {
   let [fontsLoaded, error] = useFonts({
@@ -37,30 +98,11 @@ export default function App() {
   }
 
   return (
-    <Provider store={store}>
+    <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator
-          // initialRouteName="Home"
-          initialRouteName="SignIn"
-          screenOptions={{
-            headerShown: false,
-            contentStyle: {
-              backgroundColor: COLORS.black,
-            },
-          }}
-        >
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="ManageExpense" component={ManageExpenseScreen} />
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen
-            name="ExpenseDetails"
-            component={ExpenseDetails}
-            options={{ presentation: "modal" }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+      <Provider store={store}>
+        <Root />
+      </Provider>
+    </>
   );
 }
