@@ -12,6 +12,9 @@ function TextInput<T extends FieldValues>({
   label,
   isError,
   keyboardType,
+  inputMode,
+  editable = true,
+  ...props
 }: InputProps<T>) {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -40,12 +43,19 @@ function TextInput<T extends FieldValues>({
                 </CustomRegularText>
               </View>
               <RNTextInput
-                style={[styles.input, isError && styles.validationError]}
+                {...props}
+                style={[
+                  styles.input,
+                  isError && styles.validationError,
+                  !editable && { opacity: 0.5 },
+                ]}
                 value={value}
                 onChangeText={onChange}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 keyboardType={keyboardType}
+                inputMode={inputMode}
+                editable={editable}
               />
             </View>
           </>

@@ -10,6 +10,9 @@ export interface IAuthValues {
   email: string;
   password: string;
 }
+export interface IAuthResponse {
+  idToken: string;
+}
 
 export interface IFirebaseExpense {
   [key: string]: IExpense;

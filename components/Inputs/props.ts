@@ -5,4 +5,6 @@ export interface InputProps<T extends FieldValues>
   label: string;
   isError?: boolean;
   keyboardType?: "default" | "number-pad" | "decimal-pad" | "numeric";
+  inputMode?: "email" | "none" | "text" | "numeric" | "tel" | "url";
+  editable?: boolean;
 }
