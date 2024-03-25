@@ -19,7 +19,7 @@ const SignUpScreen = () => {
   const { navigate } = useNavigation<StackNavigation>();
   const dispatch = useDispatch();
 
-  const [fetchSignUp, { data, isLoading, isError }] =
+  const [fetchSignUp, { data, isLoading, isError, reset }] =
     AuthApi.useFetchSignUpMutation();
 
   useEffect(() => {
@@ -52,6 +52,7 @@ const SignUpScreen = () => {
       "Error",
       "Could not sign up. Please check your input or try again later."
     );
+    reset();
   }
 
   return (

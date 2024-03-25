@@ -3,6 +3,7 @@ import expenseSlice from "./expensesSlice";
 import authSlice from "./authSlice";
 import { API } from "../api";
 import { AuthApi } from "../authApi";
+import { rtkQueryErrorLogger } from "../ErrorsHandler";
 
 const combinedReducer = combineReducers({
   expenseSlice,
@@ -14,7 +15,10 @@ const combinedReducer = combineReducers({
 export const store = configureStore({
   reducer: combinedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(API.middleware).concat(AuthApi.middleware),
+    getDefaultMiddleware()
+      .concat(API.middleware)
+      .concat(AuthApi.middleware)
+      .concat(rtkQueryErrorLogger),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

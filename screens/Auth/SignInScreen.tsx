@@ -19,7 +19,7 @@ const SignInScreen = () => {
   const { navigate } = useNavigation<StackNavigation>();
   const dispatch = useDispatch();
 
-  const [fetchSignIn, { data, isLoading, isError }] =
+  const [fetchSignIn, { data, isLoading, isError, reset }] =
     AuthApi.useFetchSignInMutation();
 
   useEffect(() => {
@@ -52,6 +52,7 @@ const SignInScreen = () => {
       "Error",
       "Could not sign in. Please check your credentials or try again later."
     );
+    reset();
   }
 
   return (
