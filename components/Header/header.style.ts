@@ -8,11 +8,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
+
   iconsContainer: {
     flexDirection: "row",
     gap: 8,

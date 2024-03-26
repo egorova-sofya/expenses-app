@@ -62,8 +62,9 @@ function Navigation(props: { onLayoutRootView: () => void }) {
   const isAuth = !!useSelector(getAuthSlice).token;
   return (
     <NavigationContainer onReady={props.onLayoutRootView}>
-      {!isAuth && <AuthStack />}
-      {isAuth && <AuthenticatedStack />}
+      {/* {!isAuth && <AuthStack />} */}
+      {/* {isAuth && <AuthenticatedStack />} */}
+      <AuthenticatedStack />
     </NavigationContainer>
   );
 }

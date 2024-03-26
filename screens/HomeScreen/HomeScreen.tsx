@@ -57,9 +57,9 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
     navigation.navigate("ManageExpense");
   };
 
-  if (isError) {
-    return <ErrorOverlay />;
-  }
+  // if (isError) {
+  //   return <ErrorOverlay />;
+  // }
 
   return (
     <MainLayout>

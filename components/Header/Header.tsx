@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigation } from "../../types";
 import { useDispatch } from "react-redux";
 import { logout } from "../../app/store/authSlice";
+import Avatar from "../Avatar/Avatar";
 
 interface Props {}
 
@@ -18,10 +19,7 @@ const Header: FC<Props> = ({}) => {
 
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.avatar}
-        source={require("../../assets/images/avatar.jpg")}
-      />
+      <Avatar />
       <View style={styles.iconsContainer}>
         <IconButton onPress={() => dispatch(logout())}>
           <LogOut width={22} height={22} fill={COLORS.white} />
