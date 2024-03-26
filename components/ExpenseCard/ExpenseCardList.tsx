@@ -1,6 +1,6 @@
 import React from "react";
 import ExpenseCard from "./ExpenseCard";
-import { FlatList, SafeAreaView, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import styles from "./expenseCard.style";
 import { COLORS } from "../../constants/theme";
 import { useSelector } from "react-redux";
@@ -11,22 +11,15 @@ const ExpenseCardList = () => {
   return (
     <View style={styles.cardsList}>
       <SafeAreaView>
-        <FlatList
-          data={expenses}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={{
-            paddingBottom: 60,
-          }}
-          renderItem={({ item, index }) => (
-            <ExpenseCard
-              expense={item}
-              style={{
-                backgroundColor:
-                  index % 2 === 0 ? COLORS.orange : COLORS.yellow,
-              }}
-            />
-          )}
-        />
+        {expenses?.map((item, index) => (
+          <ExpenseCard
+            style={{
+              backgroundColor: index % 2 === 0 ? COLORS.orange : COLORS.yellow,
+            }}
+            expense={item}
+            key={item.id}
+          />
+        ))}
       </SafeAreaView>
     </View>
   );

@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import Header from "../../components/Header/Header";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import styles from "./homeScreen.style";
 import CustomMediumText from "../../components/Text/CustomMediumText";
 import CustomRegularText from "../../components/Text/CustomRegularText";
@@ -64,32 +64,33 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
   return (
     <MainLayout>
       <Header />
-      <View style={styles.container}>
-        <CustomMediumText style={styles.welcomeText}>
-          Good Morning,
-        </CustomMediumText>
-        <View style={styles.descriptionContainer}>
-          <View>
-            <CustomRegularText style={styles.descriptionTitle}>
-              Sofi
-            </CustomRegularText>
-            <CustomRegularText style={styles.descriptionValue}>
-              Dec. 12, 2024
-            </CustomRegularText>
+      <ScrollView>
+        <View style={styles.container}>
+          <CustomMediumText style={styles.welcomeText}>
+            Good Morning,
+          </CustomMediumText>
+          <View style={styles.descriptionContainer}>
+            <View>
+              <CustomRegularText style={styles.descriptionTitle}>
+                Sofi
+              </CustomRegularText>
+              <CustomRegularText style={styles.descriptionValue}>
+                Dec. 12, 2024
+              </CustomRegularText>
+            </View>
+            <View>
+              <CustomRegularText style={styles.descriptionTitle}>
+                ${expensesSum.toFixed(2)}
+              </CustomRegularText>
+              <CustomRegularText style={styles.descriptionValue}>
+                Last 7 days
+              </CustomRegularText>
+            </View>
           </View>
-          <View>
-            <CustomRegularText style={styles.descriptionTitle}>
-              ${expensesSum.toFixed(2)}
-            </CustomRegularText>
-            <CustomRegularText style={styles.descriptionValue}>
-              Last 7 days
-            </CustomRegularText>
-          </View>
+          <Tabs />
+          {isLoading ? <LoadingOverlay /> : <ExpenseCardList />}
         </View>
-        <Tabs />
-        {isLoading ? <LoadingOverlay /> : <ExpenseCardList />}
-      </View>
-
+      </ScrollView>
       <View style={styles.addButtonContainer}>
         <IconButton
           showBg
