@@ -19,8 +19,11 @@ import ErrorOverlay from "./components/StatusComponents/ErrorOverlay";
 import SignInScreen from "./screens/Auth/SignInScreen";
 import SignUpScreen from "./screens/Auth/SignUpScreen";
 import { authenticate, getAuthSlice } from "./app/store/authSlice";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SplashScreen from "expo-splash-screen";
+
+SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -55,31 +58,52 @@ function AuthenticatedStack() {
   );
 }
 
-function Navigation() {
+function Navigation(props: { onLayoutRootView: () => void }) {
   const isAuth = !!useSelector(getAuthSlice).token;
-
   return (
-    <NavigationContainer>
+    <NavigationContainer onReady={props.onLayoutRootView}>
       {!isAuth && <AuthStack />}
       {isAuth && <AuthenticatedStack />}
     </NavigationContainer>
   );
 }
 function Root() {
+  const [appIsReady, setAppIsReady] = useState(false);
   const dispatch = useDispatch();
-  useEffect(() => {
-    async function checkAuth() {
-      const storedToken = await AsyncStorage.getItem("token");
 
-      if (storedToken) {
-        dispatch(authenticate(storedToken));
+  useEffect(() => {
+    const fetchAuth = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem("token");
+
+        if (storedToken) {
+          dispatch(authenticate(storedToken));
+        }
+      } catch (error) {
+        console.error("Error fetching auth: ", error);
+      } finally {
+        setAppIsReady(true);
+      }
+    };
+
+    fetchAuth();
+  }, [dispatch]);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      try {
+        await SplashScreen.hideAsync();
+      } catch (error) {
+        console.error("Error hiding splash screen: ", error);
       }
     }
+  }, [appIsReady]);
 
-    checkAuth();
-  }, []);
+  if (!appIsReady) {
+    return null;
+  }
 
-  return <Navigation />;
+  return <Navigation onLayoutRootView={onLayoutRootView} />;
 }
 
 export default function App() {
