@@ -28,7 +28,6 @@ export type RootStackParamList = {
     | { expenseId?: string; latitude: number; longitude: number };
 
   ExpenseDetails: undefined | { expenseId: string };
-  Map: undefined | { latitude: number; longitude: number };
   SignIn: undefined;
   SignUp: undefined;
 };

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { IExpense, StackNavigation } from "../../types";
-import { Alert, View } from "react-native";
+import { View } from "react-native";
 import TextInput from "../Inputs/TextInput";
 import Button from "../Button/Button";
 import IconButton from "../Button/IconButton";
@@ -11,16 +11,6 @@ import CustomMediumText from "../Text/CustomMediumText";
 import { useForm } from "react-hook-form";
 import DateInput from "../Inputs/DateInput";
 import styles from "./manageExpenseForm.style";
-import BottomMenu from "../BottomMenu/BottomMenu";
-import MapIcon from "./../../assets/images/icons/map.svg";
-import MapPinIcon from "./../../assets/images/icons/mapPin.svg";
-import LocationPicker from "./LocationPicker";
-import {
-  getCurrentPositionAsync,
-  useForegroundPermissions,
-  PermissionStatus,
-} from "expo-location";
-import useLocation from "../../hooks/useLocation";
 
 interface Props {
   defaultValues?: IExpense;
@@ -28,13 +18,10 @@ interface Props {
 }
 
 const ManageExpenseForm: React.FC<Props> = ({ defaultValues, onSubmit }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-
   const { title, price, date } = defaultValues || {};
   const navigation = useNavigation<StackNavigation>();
   const isEdit = !!defaultValues;
   const mainTitle = isEdit ? "Edit expense" : "Add expense";
-  const { getLocation, pickOnMap } = useLocation();
 
   const {
     control,
@@ -89,7 +76,6 @@ const ManageExpenseForm: React.FC<Props> = ({ defaultValues, onSubmit }) => {
           rules={{ required: true }}
           keyboardType="numeric"
         />
-        <LocationPicker onPress={() => setModalVisible(true)} />
       </View>
       <Button
         style={styles.button}
@@ -99,28 +85,6 @@ const ManageExpenseForm: React.FC<Props> = ({ defaultValues, onSubmit }) => {
       >
         Save
       </Button>
-      <BottomMenu
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        options={[
-          {
-            title: "Locate user",
-            action: () => {
-              getLocation();
-            },
-            icon: <MapPinIcon width={32} height={32} fill={COLORS.black} />,
-            appearance: "default",
-          },
-          {
-            title: "Pick on map",
-            action: () => {
-              pickOnMap();
-            },
-            icon: <MapIcon width={32} height={32} fill={COLORS.black} />,
-            appearance: "default",
-          },
-        ]}
-      />
     </View>
   );
 };
