@@ -9,8 +9,6 @@ import Settings from "./../../assets/images/icons/settings.svg";
 import { COLORS } from "../../constants/theme";
 import ExpenseMenu from "../ExpenseMenu/ExpenseMenu";
 import Button from "../Button/Button";
-import { useSelector } from "react-redux";
-import { getExpenseSlice } from "../../app/store/expensesSlice";
 import MainLayout from "../Layout/MainLayout";
 import {
   IExtendedExpense,
@@ -19,17 +17,29 @@ import {
 } from "../../types";
 import { beautifyPrice } from "../../utils/price";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { fetchExpenseDetails } from "../../utils/database";
 
 interface Props {}
 
 const ExpenseCardDetails: FC<Props> = ({}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const expenses = useSelector(getExpenseSlice).expenses;
+  // const expenses = useSelector(getExpenseSlice).expenses;
   const route = useRoute<RouteProp<RootStackParamList, "ExpenseDetails">>();
   const navigation = useNavigation<StackNavigation>();
-
   const id = route.params?.expenseId;
-  const expense = expenses?.find((item) => item.id === id);
+
+  const [expense, setExpense] = useState<IExtendedExpense | null>(null);
+
+  // const expense = expenses?.find((item) => item.id === id);
+  useEffect(() => {
+    async function loadExpenseData() {
+      if (!id) return;
+      const expense = await fetchExpenseDetails(id?.toString());
+      setExpense(expense);
+    }
+
+    loadExpenseData();
+  }, [id]);
 
   const goBack = () => {
     navigation.goBack();

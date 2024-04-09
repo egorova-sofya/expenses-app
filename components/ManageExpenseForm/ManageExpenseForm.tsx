@@ -19,6 +19,7 @@ interface Props {
 
 const ManageExpenseForm: React.FC<Props> = ({ defaultValues, onSubmit }) => {
   const { title, price, date } = defaultValues || {};
+
   const navigation = useNavigation<StackNavigation>();
   const isEdit = !!defaultValues;
   const mainTitle = isEdit ? "Edit expense" : "Add expense";

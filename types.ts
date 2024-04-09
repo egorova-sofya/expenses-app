@@ -23,9 +23,7 @@ export interface IExtendedExpense extends IExpense {
 
 export type RootStackParamList = {
   Home: undefined;
-  ManageExpense:
-    | undefined
-    | { expenseId?: string; latitude: number; longitude: number };
+  ManageExpense: undefined | { expenseId?: string };
 
   ExpenseDetails: undefined | { expenseId: string };
   SignIn: undefined;

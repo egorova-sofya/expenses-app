@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import Header from "../../components/Header/Header";
 import { ScrollView, View } from "react-native";
@@ -10,48 +10,48 @@ import ExpenseCardList from "../../components/ExpenseCard/ExpenseCardList";
 import IconButton from "../../components/Button/IconButton";
 import PlusIcon from "../../assets/images/icons/plus.svg";
 import { COLORS } from "../../constants/theme";
-import { RootStackParamList } from "../../types";
+import { IExtendedExpense, RootStackParamList } from "../../types";
 import { NavigationProp } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
-import { getExpenseSlice, setExpenses } from "../../app/store/expensesSlice";
-import { API } from "../../app/api";
 import LoadingOverlay from "../../components/StatusComponents/LoadingOverlay";
-import ErrorOverlay from "../../components/StatusComponents/ErrorOverlay";
+import { fetchExpenses } from "../../utils/database";
+import { useIsFocused } from "@react-navigation/native";
 
 interface Props {
   navigation: NavigationProp<RootStackParamList, "Home">;
 }
 
 const HomeScreen: FC<Props> = ({ navigation }) => {
-  const expenses = useSelector(getExpenseSlice).expenses;
-  const dispatch = useDispatch();
-
-  const getExpensesLast7Days = () => {
-    const today = new Date();
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(today.getDate() - 7);
-
-    return expenses?.filter((expense) => {
-      const expenseDate = new Date(expense.date);
-      return expenseDate >= sevenDaysAgo && expenseDate <= today;
-    });
-  };
-
-  const { isLoading, isError, data, error } = API.useFetchGetExpensesQuery();
+  const [expenses, setExpenses] = useState<IExtendedExpense[] | null>(null);
+  const isFocused = useIsFocused();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (data) {
-      dispatch(setExpenses(data));
+    setIsLoading(true);
+    async function fetchExpensesHandler() {
+      const expenses = await fetchExpenses();
+      setExpenses(expenses);
+      setIsLoading(false);
     }
-  }, [data]);
+    fetchExpensesHandler();
+  }, [isFocused]);
+
+  const getExpensesLast7Days = () => {
+    // const today = new Date();
+    // const sevenDaysAgo = new Date();
+    // sevenDaysAgo.setDate(today.getDate() - 7);
+    // return expenses?.filter((expense) => {
+    //   const expenseDate = new Date(expense.date);
+    //   return expenseDate >= sevenDaysAgo && expenseDate <= today;
+    // });
+  };
 
   const expensesLast7Days = getExpensesLast7Days();
 
-  const expensesSum = expensesLast7Days
-    ? expensesLast7Days.reduce((acc, expense) => {
-        return acc + expense.price;
-      }, 0)
-    : 0;
+  // const expensesSum = expensesLast7Days
+  //   ? expensesLast7Days.reduce((acc, expense) => {
+  //       return acc + expense.price;
+  //     }, 0)
+  //   : 0;
 
   const openAddExpense = () => {
     navigation.navigate("ManageExpense");
@@ -79,16 +79,22 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
               </CustomRegularText>
             </View>
             <View>
-              <CustomRegularText style={styles.descriptionTitle}>
+              {/* <CustomRegularText style={styles.descriptionTitle}>
                 ${expensesSum.toFixed(2)}
-              </CustomRegularText>
+              </CustomRegularText> */}
               <CustomRegularText style={styles.descriptionValue}>
                 Last 7 days
               </CustomRegularText>
             </View>
           </View>
           <Tabs />
-          {isLoading ? <LoadingOverlay /> : <ExpenseCardList />}
+          {isLoading ? (
+            <LoadingOverlay />
+          ) : !expenses ? (
+            <CustomMediumText>No data</CustomMediumText>
+          ) : (
+            <ExpenseCardList expenses={expenses} />
+          )}
         </View>
       </ScrollView>
       <View style={styles.addButtonContainer}>

@@ -1,14 +1,11 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import DeleteIcon from "./../../assets/images/icons/delete.svg";
 import EditIcon from "./../../assets/images/icons/edit.svg";
 import { COLORS } from "../../constants/theme";
 import { IExtendedExpense, StackNavigation } from "../../types";
-import { useDispatch } from "react-redux";
-import { deleteExpense } from "../../app/store/expensesSlice";
 import { useNavigation } from "@react-navigation/native";
-import { API } from "../../app/api";
-import ErrorOverlay from "../StatusComponents/ErrorOverlay";
 import BottomMenu from "../BottomMenu/BottomMenu";
+import { deleteExpense } from "../../utils/database";
 
 interface Props {
   expense: IExtendedExpense;
@@ -21,10 +18,7 @@ const ExpenseMenu: FC<Props> = ({ expense, modalVisible, setModalVisible }) => {
     setModalVisible(false);
   };
 
-  const [fetchDeleteExpenses, { isLoading, isError }] =
-    API.useFetchDeleteExpensesMutation();
-
-  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const { navigate, addListener } = useNavigation<StackNavigation>();
 
@@ -36,14 +30,16 @@ const ExpenseMenu: FC<Props> = ({ expense, modalVisible, setModalVisible }) => {
   }, [navigate]);
 
   const deleteExpenseFn = async () => {
-    await fetchDeleteExpenses({ id: expense.id });
-    dispatch(deleteExpense({ id: expense.id }));
+    setIsLoading(true);
+    await deleteExpense(expense.id);
+    setIsLoading(false);
+
     navigate("Home");
   };
 
-  if (isError) {
-    return <ErrorOverlay />;
-  }
+  // if (isError) {
+  //   return <ErrorOverlay />;
+  // }
   return (
     <BottomMenu
       modalVisible={modalVisible}

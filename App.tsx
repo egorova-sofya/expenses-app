@@ -13,7 +13,7 @@ import ManageExpenseScreen from "./screens/ManageExpenseScreen/ManageExpenseScre
 import { RootStackParamList } from "./types";
 import { NavigationContainer } from "@react-navigation/native";
 import { COLORS } from "./constants/theme";
-import ExpenseDetails from "./screens/ExpenseDetails/ExpenseDetails";
+import ExpenseDetailsScreen from "./screens/ExpenseDetailsScreen/ExpenseDetailsScreen";
 import LoadingOverlay from "./components/StatusComponents/LoadingOverlay";
 import ErrorOverlay from "./components/StatusComponents/ErrorOverlay";
 import SignInScreen from "./screens/Auth/SignInScreen";
@@ -22,6 +22,8 @@ import { authenticate, getAuthSlice } from "./app/store/authSlice";
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
+import { init } from "./utils/database";
+import CustomMediumText from "./components/Text/CustomMediumText";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -51,7 +53,7 @@ function AuthenticatedStack() {
 
       <Stack.Screen
         name="ExpenseDetails"
-        component={ExpenseDetails}
+        component={ExpenseDetailsScreen}
         options={{ presentation: "modal" }}
       />
     </Stack.Navigator>
@@ -70,7 +72,18 @@ function Navigation(props: { onLayoutRootView: () => void }) {
 }
 function Root() {
   const [appIsReady, setAppIsReady] = useState(false);
+  const [dbIsReady, setDbIsReady] = useState(true);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    init()
+      .then(() => {
+        setDbIsReady(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   useEffect(() => {
     const fetchAuth = async () => {
@@ -91,16 +104,16 @@ function Root() {
   }, [dispatch]);
 
   const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
+    if (appIsReady && dbIsReady) {
       try {
         await SplashScreen.hideAsync();
       } catch (error) {
         console.error("Error hiding splash screen: ", error);
       }
     }
-  }, [appIsReady]);
+  }, [appIsReady, dbIsReady]);
 
-  if (!appIsReady) {
+  if (!appIsReady || !dbIsReady) {
     return null;
   }
 
