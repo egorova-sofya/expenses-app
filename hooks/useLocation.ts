@@ -1,12 +1,14 @@
+import { useNavigation } from "@react-navigation/native";
 import {
   useForegroundPermissions,
   PermissionStatus,
   getCurrentPositionAsync,
 } from "expo-location";
-import React from "react";
+import { StackNavigation } from "../types";
 
 const useLocation = () => {
   const [locationPermission, requestPermission] = useForegroundPermissions();
+  const navigation = useNavigation<StackNavigation>();
 
   const verifyPermission = async () => {
     if (
@@ -34,7 +36,9 @@ const useLocation = () => {
     const location = await getCurrentPositionAsync();
     console.log("location", location);
   };
-  const pickOnMap = () => {};
+  const pickOnMap = () => {
+    navigation.navigate("Map");
+  };
   return {
     getLocation,
     pickOnMap,

@@ -22,6 +22,7 @@ import { authenticate, getAuthSlice } from "./app/store/authSlice";
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
+import MapScreen from "./screens/MapScreen/MapScreen";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -48,6 +49,7 @@ function AuthenticatedStack() {
     <Stack.Navigator initialRouteName="Home" screenOptions={screenOptions}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="ManageExpense" component={ManageExpenseScreen} />
+      <Stack.Screen name="Map" component={MapScreen} />
 
       <Stack.Screen
         name="ExpenseDetails"

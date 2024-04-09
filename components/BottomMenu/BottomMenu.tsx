@@ -1,8 +1,9 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC, ReactNode, useEffect } from "react";
 import styles from "./bottomMenu.style";
 import { Modal, Pressable, TouchableOpacity, View } from "react-native";
 import CustomMediumText from "../Text/CustomMediumText";
 import { COLORS } from "../../constants/theme";
+import { useIsFocused } from "@react-navigation/native";
 
 interface IMenuOption {
   title: string;
@@ -19,9 +20,16 @@ interface Props {
 }
 
 const BottomMenu: FC<Props> = ({ options, modalVisible, setModalVisible }) => {
+  const isFocused = useIsFocused();
   const closeModal = () => {
     setModalVisible(false);
   };
+
+  useEffect(() => {
+    if (!isFocused) {
+      closeModal();
+    }
+  }, [isFocused]);
 
   return (
     <Modal
