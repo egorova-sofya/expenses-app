@@ -37,7 +37,7 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
     });
   };
 
-  const { isLoading, isError, data } = API.useFetchGetExpensesQuery();
+  const { isLoading, isError, data, error } = API.useFetchGetExpensesQuery();
 
   useEffect(() => {
     if (data) {

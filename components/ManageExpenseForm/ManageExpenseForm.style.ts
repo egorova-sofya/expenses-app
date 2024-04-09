@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../constants/theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -18,6 +19,20 @@ const styles = StyleSheet.create({
   inputsContainer: {
     flexDirection: "column",
     gap: 32,
+  },
+  locationLabel: {
+    color: COLORS.darkGray2,
+    fontSize: 18,
+    lineHeight: 22,
+    marginBottom: 8,
+  },
+
+  locationBtnText: {
+    fontSize: 18,
+    lineHeight: 22,
+    color: COLORS.white,
+    textDecorationLine: "underline",
+    textDecorationColor: COLORS.white,
   },
   button: {
     width: 220,

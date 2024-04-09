@@ -22,8 +22,6 @@ const Avatar = () => {
     useCameraPermissions();
 
   async function verifyPermission() {
-    console.log("cameraPermissionInformation", cameraPermissionInformation);
-    console.log("PermissionStatus", PermissionStatus);
     if (
       cameraPermissionInformation?.status === PermissionStatus.DENIED ||
       cameraPermissionInformation?.status === PermissionStatus.UNDETERMINED
@@ -32,17 +30,6 @@ const Avatar = () => {
 
       return permissionResponse.granted;
     }
-
-    // if (
-    //   cameraPermissionInformation?.status === PermissionStatus.DENIED ||
-    //   cameraPermissionInformation?.status === PermissionStatus.UNDETERMINED
-    // ) {
-    //   Alert.alert(
-    //     "Insufficient permissions!",
-    //     "You need to grant camera permissions to use this app."
-    //   );
-    //   return false;
-    // }
 
     return true;
   }
@@ -63,7 +50,13 @@ const Avatar = () => {
 
   const launchCamera = async () => {
     const hasPermission = await verifyPermission();
-    if (!hasPermission) return;
+    if (!hasPermission) {
+      Alert.alert(
+        "Insufficient permissions!",
+        "You need to grant camera permissions to use this app."
+      );
+      return;
+    }
 
     let result = await launchCameraAsync({
       mediaTypes: MediaTypeOptions.All,
