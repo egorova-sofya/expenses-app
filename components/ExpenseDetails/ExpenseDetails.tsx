@@ -15,7 +15,7 @@ import {
   RootStackParamList,
   StackNavigation,
 } from "../../types";
-import { beautifyPrice } from "../../utils/price";
+import { beautifyPrice } from "../../utils/beautifyPrice";
 import {
   RouteProp,
   useIsFocused,

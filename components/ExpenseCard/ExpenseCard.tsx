@@ -5,7 +5,7 @@ import CustomBlackText from "../Text/CustomBlackText";
 import CustomRegularText from "../Text/CustomRegularText";
 import { IExtendedExpense, StackNavigation } from "../../types";
 import { COLORS } from "../../constants/theme";
-import { beautifyPrice } from "../../utils/price";
+import { beautifyPrice } from "../../utils/beautifyPrice";
 import { useNavigation } from "@react-navigation/native";
 
 interface Props extends React.ComponentProps<typeof View> {

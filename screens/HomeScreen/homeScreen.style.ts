@@ -12,22 +12,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 16,
   },
-  descriptionContainer: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 28,
-  },
-  descriptionTitle: {
-    fontSize: 18,
-    lineHeight: 22,
-  },
-  descriptionValue: {
-    fontSize: 12,
-    lineHeight: 15,
-    color: COLORS.foregroundGray,
-  },
+
   addButtonContainer: {
     position: "absolute",
     bottom: 20,

@@ -1,3 +1,3 @@
 export const beautifyPrice = (price: number) => {
-  return `$${+price?.toFixed(2)}`;
+  return `$${parseFloat(Number(price).toFixed(2))}`;
 };

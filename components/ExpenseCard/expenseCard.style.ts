@@ -3,10 +3,6 @@ import { StyleSheet } from "react-native";
 import { COLORS } from "../../constants/theme";
 
 const styles = StyleSheet.create({
-  cardsList: {
-    flex: 1,
-    paddingBottom: 110,
-  },
   card: {
     borderRadius: 30,
     overflow: "hidden",
