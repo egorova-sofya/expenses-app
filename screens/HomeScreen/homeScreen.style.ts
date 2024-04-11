@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 52,
     lineHeight: 52,
-    marginTop: 40,
+    marginTop: 30,
     marginBottom: 16,
   },
 

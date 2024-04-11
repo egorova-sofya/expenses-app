@@ -55,7 +55,6 @@ const ExpensesList: FC<Props> = () => {
 
   const showRecentExpenses = activeTab === "recent";
   const finalExpenses = showRecentExpenses ? expensesLast7Days : expenses;
-
   return (
     <>
       <View style={styles.descriptionContainer}>
@@ -81,8 +80,13 @@ const ExpensesList: FC<Props> = () => {
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
       {isLoading ? (
         <LoadingOverlay />
-      ) : !expenses ? (
-        <CustomMediumText>No data</CustomMediumText>
+      ) : !expenses || expenses.length === 0 ? (
+        <View style={styles.noDataContainer}>
+          <CustomMediumText style={styles.noDataAccentText}>
+            ¯\_(ツ)_/¯
+          </CustomMediumText>
+          <CustomMediumText style={styles.noDataText}>No data</CustomMediumText>
+        </View>
       ) : (
         <View style={styles.cardsList}>
           <SafeAreaView>

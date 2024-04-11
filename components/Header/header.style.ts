@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingBottom: 12,
   },
 
   iconsContainer: {

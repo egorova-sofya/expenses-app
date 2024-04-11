@@ -23,6 +23,22 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: 110,
   },
+  noDataContainer: {
+    flex: 1,
+    minHeight: 250,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 12,
+  },
+  noDataAccentText: {
+    fontWeight: "700",
+    fontSize: 32,
+    lineHeight: 34,
+    color: COLORS.yellow,
+  },
+  noDataText: {
+    fontWeight: "500",
+  },
 });
 
 export default styles;
