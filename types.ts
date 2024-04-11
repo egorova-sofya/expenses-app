@@ -14,9 +14,6 @@ export interface IAuthResponse {
   idToken: string;
 }
 
-export interface IFirebaseExpense {
-  [key: string]: IExpense;
-}
 export interface IExtendedExpense extends IExpense {
   id: string;
 }

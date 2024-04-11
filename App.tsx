@@ -22,8 +22,8 @@ import { authenticate, getAuthSlice } from "./app/store/authSlice";
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
-import { init } from "./utils/database";
-import CustomMediumText from "./components/Text/CustomMediumText";
+import { initAvatarDB } from "./utils/avatarDatabase";
+import { initExpensesDB } from "./utils/expensesDatabase";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -76,7 +76,7 @@ function Root() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    init()
+    Promise.all([initExpensesDB(), initAvatarDB()])
       .then(() => {
         setDbIsReady(true);
       })

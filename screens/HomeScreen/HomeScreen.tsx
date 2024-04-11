@@ -13,7 +13,7 @@ import { COLORS } from "../../constants/theme";
 import { IExtendedExpense, RootStackParamList } from "../../types";
 import { NavigationProp } from "@react-navigation/native";
 import LoadingOverlay from "../../components/StatusComponents/LoadingOverlay";
-import { fetchExpenses } from "../../utils/database";
+import { fetchExpenses } from "../../utils/expensesDatabase";
 import { useIsFocused } from "@react-navigation/native";
 
 interface Props {
@@ -36,22 +36,23 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
   }, [isFocused]);
 
   const getExpensesLast7Days = () => {
-    // const today = new Date();
-    // const sevenDaysAgo = new Date();
-    // sevenDaysAgo.setDate(today.getDate() - 7);
-    // return expenses?.filter((expense) => {
-    //   const expenseDate = new Date(expense.date);
-    //   return expenseDate >= sevenDaysAgo && expenseDate <= today;
-    // });
+    const today = new Date();
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(today.getDate() - 7);
+
+    return expenses?.filter((expense) => {
+      const expenseDate = new Date(expense.date);
+      return expenseDate >= sevenDaysAgo && expenseDate <= today;
+    });
   };
 
   const expensesLast7Days = getExpensesLast7Days();
 
-  // const expensesSum = expensesLast7Days
-  //   ? expensesLast7Days.reduce((acc, expense) => {
-  //       return acc + expense.price;
-  //     }, 0)
-  //   : 0;
+  const expensesSum = expensesLast7Days
+    ? expensesLast7Days.reduce((acc, expense) => {
+        return acc + expense.price;
+      }, 0)
+    : 0;
 
   const openAddExpense = () => {
     navigation.navigate("ManageExpense");
@@ -79,9 +80,9 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
               </CustomRegularText>
             </View>
             <View>
-              {/* <CustomRegularText style={styles.descriptionTitle}>
+              <CustomRegularText style={styles.descriptionTitle}>
                 ${expensesSum.toFixed(2)}
-              </CustomRegularText> */}
+              </CustomRegularText>
               <CustomRegularText style={styles.descriptionValue}>
                 Last 7 days
               </CustomRegularText>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Image, Pressable, View } from "react-native";
 import styles from "./avatar.style";
 import {
@@ -13,10 +13,24 @@ import PhotoIcon from "./../../assets/images/icons/photo.svg";
 import GalleryIcon from "./../../assets/images/icons/gallery.svg";
 import UserIcon from "./../../assets/images/icons/user.svg";
 import { COLORS } from "../../constants/theme";
+import { fetchAvatar, insertAvatar } from "../../utils/avatarDatabase";
+import { useIsFocused } from "@react-navigation/native";
 
 const Avatar = () => {
   const [image, setImage] = useState<null | string>(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const isFocused = useIsFocused();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    async function fetchAvatarHandler() {
+      const avatar = await fetchAvatar();
+      avatar && setImage(avatar);
+      setIsLoading(false);
+    }
+    fetchAvatarHandler();
+  }, [isFocused]);
 
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
@@ -33,6 +47,13 @@ const Avatar = () => {
 
     return true;
   }
+
+  useEffect(() => {
+    async function createAvatarHandler(uri: string) {
+      await insertAvatar(uri);
+    }
+    image && createAvatarHandler(image);
+  }, [image]);
 
   const pickImage = async () => {
     let result = await launchImageLibraryAsync({
@@ -71,6 +92,11 @@ const Avatar = () => {
       setImage(result.assets[0].uri);
     }
   };
+
+  if (isLoading) {
+    return null;
+  }
+
   return (
     <View>
       {image ? (

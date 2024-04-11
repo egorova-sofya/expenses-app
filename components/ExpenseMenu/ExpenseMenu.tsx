@@ -5,7 +5,7 @@ import { COLORS } from "../../constants/theme";
 import { IExtendedExpense, StackNavigation } from "../../types";
 import { useNavigation } from "@react-navigation/native";
 import BottomMenu from "../BottomMenu/BottomMenu";
-import { deleteExpense } from "../../utils/database";
+import { deleteExpense } from "../../utils/expensesDatabase";
 
 interface Props {
   expense: IExtendedExpense;

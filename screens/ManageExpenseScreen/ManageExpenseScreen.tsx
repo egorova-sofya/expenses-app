@@ -8,7 +8,7 @@ import {
   editExpense,
   fetchExpenseDetails,
   insertExpense,
-} from "../../utils/database";
+} from "../../utils/expensesDatabase";
 
 interface Props {
   route: RouteProp<RootStackParamList, "ManageExpense">;
@@ -21,29 +21,18 @@ const ManageExpenseScreen: FC<Props> = ({ route }) => {
   useEffect(() => {
     setIsLoading(true);
     async function loadExpenseData() {
-      if (!id) return;
-      const expense: IExtendedExpense = await fetchExpenseDetails(id);
-      setExpense(expense);
-
-      setIsLoading(false);
+      if (id) {
+        const expense: IExtendedExpense = await fetchExpenseDetails(id);
+        setExpense(expense);
+      }
     }
 
     loadExpenseData();
+    setIsLoading(false);
   }, [id]);
-
-  // const [
-  //   fetchAddExpense,
-  //   { isLoading: isAddExpenseLoading, isError: isAddExpenseError },
-  // ] = API.useFetchAddExpenseMutation();
-  // const [
-  //   fetchEditExpense,
-  //   { isLoading: isEditExpenseLoading, isError: isEditExpenseError },
-  // ] = API.useFetchEditExpenseMutation();
 
   const onSubmit = async (value: IExpense) => {
     if (id) {
-      // fetchEditExpense({ id: id, data: value });
-      // dispatch(editExpense({ ...value, id: id }));
       setIsLoading(true);
       async function editExpenseData() {
         if (!id) return;
@@ -53,23 +42,15 @@ const ManageExpenseScreen: FC<Props> = ({ route }) => {
 
       editExpenseData();
     } else {
-      // const result = await fetchAddExpense(value);
-      // "data" in result &&
-      //   dispatch(addExpense({ ...value, id: result?.data.name }));
       async function createExpenseHandler(expense: IExpense) {
         await insertExpense(expense);
       }
       createExpenseHandler(value);
     }
   };
-
-  if (isLoading) {
+  if (isLoading || (id && !expense)) {
     return <LoadingOverlay />;
   }
-
-  // if (isAddExpenseError || isEditExpenseError) {
-  //   return <LoadingOverlay />;
-  // }
 
   return (
     <MainLayout>

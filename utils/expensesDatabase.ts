@@ -4,7 +4,7 @@ import { SQLError } from "expo-sqlite";
 
 const database = SQLite.openDatabase("expenses.db");
 
-export function init() {
+export function initExpensesDB() {
   const promise = new Promise<void>((resolve, reject) => {
     database.transaction((tx) => {
       tx.executeSql(
@@ -133,4 +133,5 @@ export function deleteExpense(id: string) {
       );
     });
   });
+  return promise;
 }

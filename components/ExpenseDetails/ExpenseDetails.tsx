@@ -16,21 +16,25 @@ import {
   StackNavigation,
 } from "../../types";
 import { beautifyPrice } from "../../utils/price";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { fetchExpenseDetails } from "../../utils/database";
+import {
+  RouteProp,
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import { fetchExpenseDetails } from "../../utils/expensesDatabase";
 
 interface Props {}
 
 const ExpenseCardDetails: FC<Props> = ({}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  // const expenses = useSelector(getExpenseSlice).expenses;
   const route = useRoute<RouteProp<RootStackParamList, "ExpenseDetails">>();
   const navigation = useNavigation<StackNavigation>();
   const id = route.params?.expenseId;
+  const isFocused = useIsFocused();
 
   const [expense, setExpense] = useState<IExtendedExpense | null>(null);
 
-  // const expense = expenses?.find((item) => item.id === id);
   useEffect(() => {
     async function loadExpenseData() {
       if (!id) return;
@@ -39,7 +43,7 @@ const ExpenseCardDetails: FC<Props> = ({}) => {
     }
 
     loadExpenseData();
-  }, [id]);
+  }, [id, isFocused]);
 
   const goBack = () => {
     navigation.goBack();
