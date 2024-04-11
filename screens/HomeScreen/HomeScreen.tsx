@@ -15,6 +15,7 @@ import { NavigationProp } from "@react-navigation/native";
 import LoadingOverlay from "../../components/StatusComponents/LoadingOverlay";
 import { fetchExpenses } from "../../utils/expensesDatabase";
 import { useIsFocused } from "@react-navigation/native";
+import dayjs from "dayjs";
 
 interface Props {
   navigation: NavigationProp<RootStackParamList, "Home">;
@@ -36,12 +37,11 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
   }, [isFocused]);
 
   const getExpensesLast7Days = () => {
-    const today = new Date();
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(today.getDate() - 7);
+    const today = dayjs(new Date());
+    const sevenDaysAgo = dayjs(new Date()).subtract(7, "day");
 
     return expenses?.filter((expense) => {
-      const expenseDate = new Date(expense.date);
+      const expenseDate = dayjs(expense.date);
       return expenseDate >= sevenDaysAgo && expenseDate <= today;
     });
   };
@@ -62,13 +62,21 @@ const HomeScreen: FC<Props> = ({ navigation }) => {
   //   return <ErrorOverlay />;
   // }
 
+  const timeOfTheDay = dayjs().get("hour");
+  const welcomeText =
+    timeOfTheDay < 12
+      ? "Good Morning"
+      : timeOfTheDay < 18
+      ? "Good Afternoon"
+      : "Good Evening";
+
   return (
     <MainLayout>
       <Header />
       <ScrollView>
         <View style={styles.container}>
           <CustomMediumText style={styles.welcomeText}>
-            Good Morning,
+            {welcomeText},
           </CustomMediumText>
           <View style={styles.descriptionContainer}>
             <View>

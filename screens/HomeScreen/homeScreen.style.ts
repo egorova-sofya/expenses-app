@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   welcomeText: {
-    fontSize: 62,
-    lineHeight: 61,
+    fontSize: 52,
+    lineHeight: 52,
     marginTop: 40,
     marginBottom: 16,
   },
