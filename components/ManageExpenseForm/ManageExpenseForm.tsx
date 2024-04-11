@@ -68,6 +68,7 @@ const ManageExpenseForm: React.FC<Props> = ({ defaultValues, onSubmit }) => {
           label="Date (YYYY/MM/DD)"
           name="date"
           control={control}
+          keyboardType="numeric"
         />
         <TextInput
           label="Amount"
