@@ -34,6 +34,7 @@ const screenOptions = {
   contentStyle: {
     backgroundColor: COLORS.black,
   },
+  presentation: "transparentModal" as "transparentModal",
 };
 
 function AuthStack() {
@@ -64,9 +65,9 @@ function Navigation(props: { onLayoutRootView: () => void }) {
   const isAuth = !!useSelector(getAuthSlice).token;
   return (
     <NavigationContainer onReady={props.onLayoutRootView}>
-      {/* {!isAuth && <AuthStack />} */}
-      {/* {isAuth && <AuthenticatedStack />} */}
-      <AuthenticatedStack />
+      {!isAuth && <AuthStack />}
+      {isAuth && <AuthenticatedStack />}
+      {/* <AuthenticatedStack /> */}
     </NavigationContainer>
   );
 }
